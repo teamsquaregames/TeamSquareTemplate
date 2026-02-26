@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Utils;
 
@@ -16,9 +17,6 @@ public class GameAssets : ScriptableObject
 
     // ----------------------------------------------------------
 
+    [AssetList(Path = "_GameAssets/Objects/Currencies/")]
     public CurrencyAsset[] currencyAssets;
-    public SerializableDictionary<Currency, CurrencyAsset> currencyAssetDico;
-    public FloatingTextConfig currencyTextConfig;
-    public SoundKeys positiveButtonClick;
-    public SoundKeys negativeButtonClick;
 }

@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae80819850f8de409784797a8236ca5, type: 3}
   m_Name: GameAssets
   m_EditorClassIdentifier: 
+  currencyAssets:
+  - {fileID: 11400000, guid: f0d2986121d34fa4297808a1288d72d5, type: 2}
