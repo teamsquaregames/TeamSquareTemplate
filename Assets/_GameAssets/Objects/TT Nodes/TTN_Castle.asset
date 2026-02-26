@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b72dc793f1b1587429822bed8d241d79, type: 3}
+  m_Name: TTN_Castle
+  m_EditorClassIdentifier: 
+  m_displayName: Castle
+  m_id: mainCaslte
+  m_maxLevel: 1
+  m_alternativeModeAsset: {fileID: 0}
+  m_icon: {fileID: 21300000, guid: 17e5a1a33e666f54ab2de656cb4804ad, type: 3}
+  m_rank: 1
+  m_description: 'Castle: lot of stars and great click spread!'
+  m_linkedObject: {fileID: 8266716149682435965, guid: 951f0d5a327e5cd4aacb6a6639da1fef, type: 3}
+  m_cost:
+  - currencyAsset: {fileID: 11400000, guid: 7cb0c72fb6d08024d9b4f71d0083c029, type: 2}
+    m_amount: dc05000000000000
+  m_unlockedTileObjects: 0e000000
+  m_unlockBiome: 0
+  m_bonusesApplicationMode: 0
+  m_statModifiers: []
+  m_freeBuildings: 0
+  m_currencies: []
+  m_length: 5
+  m_offset: 0
+  m_previewCurrency: {fileID: 11400000, guid: 7cb0c72fb6d08024d9b4f71d0083c029, type: 2}
+  m_pricesBase: 1000
+  m_pricesLinear: 1000
+  m_pricesExpo: 1
+  m_testCosts:
+  - currencyAsset: {fileID: 11400000, guid: 7cb0c72fb6d08024d9b4f71d0083c029, type: 2}
+    m_amount: e803000000000000d007000000000000b80b000000000000a00f0000000000008813000000000000

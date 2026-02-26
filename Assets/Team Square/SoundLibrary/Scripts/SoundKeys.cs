@@ -1,0 +1,27 @@
+public enum SoundKeys
+{
+    _None,
+    music,
+    sfx_coastline_click,
+    sfx_tileobject_click,
+    sfx_click,
+    sfx_tileobject_placed,
+    ui_button_click,
+    ui_button_click_negative,
+    ui_TTnode_click,
+    ui_TTnode_maxlevel,
+    sfx_tileobject_rotate,
+    sfx_coastline_complete,
+    sfx_island_unlocked,
+    ambient,
+    sfx_tileobject_produce,
+    sfx_chest_open,
+    sfx_tileobject_undo,
+    ui_button_hover,
+    sfx_tileObject_Destruction,
+    sfx_greatBuilding,
+    sfx_forge,
+    sfx_chorus_bright,
+    sfx_flyingcurrency,
+    stgr_quest
+}

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7526390915179924727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6076679448076628734}
+  - component: {fileID: 5134932352203233236}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6076679448076628734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526390915179924727}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23.299253, y: 1040.4241, z: 1.4391943}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5134932352203233236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526390915179924727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d7069f691cd3447a4e2279be022f9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questAssets:
+  - {fileID: 11400000, guid: 55925c3c1580c1f458dce76fbf70d242, type: 2}
+  - {fileID: 11400000, guid: dd648a0697f21954aa42c105ace69441, type: 2}
+  - {fileID: 11400000, guid: 5d4d96259778c8d41adebb741c6cc621, type: 2}
+  - {fileID: 11400000, guid: 091fbe531081b504ca6fa48248f1e7ac, type: 2}
+  - {fileID: 11400000, guid: c3b799652ef98684297b902e1aa56ac0, type: 2}
+  - {fileID: 11400000, guid: 65291ce2aae6b884fb79a022acc1fc10, type: 2}
+  - {fileID: 11400000, guid: 06abe20e4c4d58e4a8aa59bc947d59f4, type: 2}
+  - {fileID: 11400000, guid: 8aad61857d962324199afd840d6530b6, type: 2}
+  - {fileID: 11400000, guid: da087cbe59634034ebb967e419c8471d, type: 2}
+  - {fileID: 11400000, guid: c74a49314826ea1448f98e6364d8a269, type: 2}
+  - {fileID: 11400000, guid: 5dae5bdf0da4b164db686bf3508c2757, type: 2}
+  - {fileID: 11400000, guid: e45cb48c78f020e429b32b52bb1e83f2, type: 2}
+  - {fileID: 11400000, guid: 1782b12b5b2ba0249801ae519acf808a, type: 2}
+  - {fileID: 11400000, guid: f5e0781d905b11c43aebaf337c66a689, type: 2}
+  - {fileID: 11400000, guid: 729408a3164ef18438ee1af31f42d7ce, type: 2}
+  currentQuestIndex: 0

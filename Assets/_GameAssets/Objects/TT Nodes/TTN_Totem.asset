@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b72dc793f1b1587429822bed8d241d79, type: 3}
+  m_Name: TTN_Totem
+  m_EditorClassIdentifier: 
+  m_displayName: Totem
+  m_id: mainTotem
+  m_maxLevel: 5
+  m_alternativeModeAsset: {fileID: 0}
+  m_icon: {fileID: 21300000, guid: 5c0fa381c72f9ba48bea14d50789378e, type: 3}
+  m_rank: 1
+  m_description: Gives a lot of stars, but don't produce anything.
+  m_linkedObject: {fileID: 4365741420559299135, guid: 9e1004a439b5aff439e38ad7a34696f8, type: 3}
+  m_cost:
+  - currencyAsset: {fileID: 11400000, guid: 7cb0c72fb6d08024d9b4f71d0083c029, type: 2}
+    m_amount: c800000000000000900100000000000058020000000000002003000000000000e803000000000000
+  m_unlockedTileObjects: 0c000000
+  m_unlockBiome: 0
+  m_bonusesApplicationMode: 0
+  m_statModifiers:
+  - id: TTmainTotem
+    statType: 501
+    modifierType: 1
+    addPercentSymbol: 0
+    values:
+    - 0
+    - 100
+    - 200
+    - 300
+    - 400
+    level: 0
+  m_freeBuildings: 0
+  m_currencies: []
+  m_length: 5
+  m_offset: 0
+  m_previewCurrency: {fileID: 0}
+  m_pricesBase: 10
+  m_pricesLinear: 1
+  m_pricesExpo: 1
+  m_testCosts:
+  - currencyAsset: {fileID: 11400000, guid: 7cb0c72fb6d08024d9b4f71d0083c029, type: 2}
+    m_amount: 0a000000000000000b000000000000000c000000000000000d000000000000000e00000000000000

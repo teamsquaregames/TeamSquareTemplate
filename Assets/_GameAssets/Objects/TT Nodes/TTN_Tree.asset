@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b72dc793f1b1587429822bed8d241d79, type: 3}
+  m_Name: TTN_Tree
+  m_EditorClassIdentifier: 
+  m_displayName: Tree
+  m_id: mainTree
+  m_maxLevel: 5
+  m_alternativeModeAsset: {fileID: 0}
+  m_icon: {fileID: 21300000, guid: e89e65e6a24fcdd4e9c24f0f921332a6, type: 3}
+  m_rank: 1
+  m_description: 'Tree : produces wood.
+
+    Improve production:'
+  m_linkedObject: {fileID: 5280642281389607339, guid: 49414a3518bd1994caecfdb7513535bc, type: 3}
+  m_cost:
+  - currencyAsset: {fileID: 11400000, guid: 7cb0c72fb6d08024d9b4f71d0083c029, type: 2}
+    m_amount: 0f000000000000001f000000000000003e000000000000007b00000000000000f400000000000000
+  m_unlockedTileObjects: 03000000
+  m_unlockBiome: 0
+  m_bonusesApplicationMode: 0
+  m_statModifiers:
+  - id: TTmainTree
+    statType: 207
+    modifierType: 1
+    addPercentSymbol: 1
+    values:
+    - 0
+    - 25
+    - 50
+    - 75
+    - 100
+    level: 0
+  m_freeBuildings: 0
+  m_currencies: []
+  m_length: 5
+  m_offset: 0
+  m_previewCurrency: {fileID: 0}
+  m_pricesBase: 15
+  m_pricesLinear: 1
+  m_pricesExpo: 2
+  m_testCosts:
+  - currencyAsset: {fileID: 11400000, guid: 7cb0c72fb6d08024d9b4f71d0083c029, type: 2}
+    m_amount: 0f000000000000001f000000000000003e000000000000007b00000000000000f400000000000000
