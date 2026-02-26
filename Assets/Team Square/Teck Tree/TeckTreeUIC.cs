@@ -82,13 +82,11 @@ public class TeckTreeUIC : UIContainer
 
         m_ttPanelController.ResetView();
         HandleNodesHighlight();
-        CameraController.Instance.SetUIBackgroundImageActive(true);
     }
 
     public override void Close()
     {
         base.Close();
-        CameraController.Instance.SetUIBackgroundImageActive(false);
     }
 
     public TTNodeButton GetButtonByNodeAsset(TTNodeAsset nodeAsset)

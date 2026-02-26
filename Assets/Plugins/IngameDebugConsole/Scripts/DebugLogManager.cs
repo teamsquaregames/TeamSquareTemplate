@@ -461,8 +461,8 @@ namespace IngameDebugConsole
 				Instance = this;
 
 				// If it is a singleton object, don't destroy it between scene changes
-				if( singleton )
-					DontDestroyOnLoad( gameObject );
+				// if( singleton )
+				// 	DontDestroyOnLoad( gameObject );
 			}
 			else if( Instance != this )
 			{
@@ -662,17 +662,17 @@ namespace IngameDebugConsole
 
 		private void Start()
 		{
-			if( startMinimized )
+			if (startMinimized)
 			{
 				HideLogWindow();
 
-				if( popupVisibility != PopupVisibility.Always )
+				if (popupVisibility != PopupVisibility.Always)
 					popupManager.Hide();
 			}
 			else
 				ShowLogWindow();
 
-			PopupEnabled = ( popupVisibility != PopupVisibility.Never );
+			PopupEnabled = (popupVisibility != PopupVisibility.Never);
 		}
 
 		private void OnDestroy()
@@ -738,7 +738,7 @@ namespace IngameDebugConsole
 			// when we hide the console, we don't want the commandInputField to capture the toggleKey.
 			// InputField captures input in LateUpdate so deactivating it in Update ensures that
 			// no further input is captured
-			if( toggleWithKey )
+			if( toggleWithKey && GameConfig.Instance.DebugSettings.developmentBuild)
 			{
 				if( Input.GetKeyDown( toggleKey ) )
 				{

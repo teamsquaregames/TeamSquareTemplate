@@ -1,6 +1,5 @@
 using UnityEngine;
 using Unity.Cinemachine;
-using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine.InputSystem;
 using Utils.UI;
@@ -8,8 +7,6 @@ using Utils.UI;
 [RequireComponent(typeof(CinemachineCamera))]
 public class CameraController : MyBox.Singleton<CameraController>
 {
-    [SerializeField] private GameObject m_uiBackgroundImage;
-    
     [Header("Pan Settings")]
     [SerializeField] private float panSpeed = 0.5f;
 
@@ -53,14 +50,6 @@ public class CameraController : MyBox.Singleton<CameraController>
             Debug.LogWarning("CameraController: CinemachineCamera has no Follow target assigned!");
 
         followTarget = virtualCamera.Follow;
-        
-        #if !UNITY_EDITOR
-        zoomSpeed *= 2;
-        rotationSpeed *= 5;
-        panSpeed *= 4;
-        #endif
-        
-        NewStartAnim();
     }
 
     private void Update()
@@ -126,22 +115,16 @@ public class CameraController : MyBox.Singleton<CameraController>
 
     private Vector3 ApplyBoundaryConstraint(Vector3 position)
     {
-        // Calculate distance from world center (ignoring Y axis for horizontal boundary)
         Vector3 flatPosition = new Vector3(position.x, 0f, position.z);
         Vector3 flatCenter = Vector3.zero;
         float distanceFromCenter = Vector3.Distance(flatPosition, flatCenter);
-
-        // If within boundary, return as-is
+        
         if (distanceFromCenter <= boundaryRadius)
-        {
             return position;
-        }
-
-        // Hard clamp: constrain to boundary
+        
         Vector3 directionFromCenter = (flatPosition - flatCenter).normalized;
         Vector3 clampedFlatPosition = flatCenter + directionFromCenter * boundaryRadius;
         
-        // Preserve original Y position
         return new Vector3(clampedFlatPosition.x, position.y, clampedFlatPosition.z);
     }
 
@@ -151,7 +134,7 @@ public class CameraController : MyBox.Singleton<CameraController>
 
         if (UIHandler.Instance != null && UIHandler.Instance.IsOverUI) return;
 
-        float scroll = Input.mouseScrollDelta.y;
+        float scroll = Mouse.current.scroll.ReadValue().y;
         if (Mathf.Abs(scroll) > 0.01f)
         {
             targetCameraDistance -= scroll * zoomSpeed;
@@ -167,12 +150,12 @@ public class CameraController : MyBox.Singleton<CameraController>
 
     private void HandleRotation()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Mouse.current.middleButton.wasPressedThisFrame)
         {
             lastMousePosition = Input.mousePosition;
         }
 
-        if (Input.GetMouseButton(1)) // Right mouse held
+        if (Mouse.current.rightButton.wasPressedThisFrame )
         {
             Vector3 delta = Input.mousePosition - lastMousePosition;
             float rotationY = delta.x * rotationSpeed * Time.deltaTime * PlayerPrefs.GetFloat("CameraSensitivity", 0.5f);
@@ -180,101 +163,6 @@ public class CameraController : MyBox.Singleton<CameraController>
             transform.Rotate(Vector3.up, rotationY, Space.World);
 
             lastMousePosition = Input.mousePosition;
-        }
-    }
-
-
-    public void ResetAnim()
-    {
-        StartCoroutine(ResetAnimCR());
-    }
-
-    private IEnumerator ResetAnimCR()
-    {
-        float elapsed = 0f;
-        float initialDistance = composer.CameraDistance;
-        while (elapsed < m_resetAnimDuration)
-        {
-            float t = elapsed / m_resetAnimDuration;
-            float curveValue = m_resetAnimCurve.Evaluate(t);
-            
-            composer.CameraDistance = Mathf.Lerp(initialDistance, m_resetAnimZoom, curveValue);
-            targetCameraDistance = composer.CameraDistance; // Keep target in sync
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        SetUIBackgroundImageActive(true);
-    }
-    
-    public void SetUIBackgroundImageActive(bool active)
-    {
-        m_uiBackgroundImage.SetActive(active);
-    }
-
-    public void NewStartAnim()
-    {
-        virtualCamera.Target.TrackingTarget.position = Vector3.zero;
-        StartCoroutine(NewStartAnimCR());
-    }
-
-    private IEnumerator NewStartAnimCR()
-    {
-        SetUIBackgroundImageActive(false);
-        
-        float elapsed = 0f;
-
-        while (elapsed < m_resetAnimDuration)
-        {
-            float t = elapsed / m_resetAnimDuration;
-            float curveValue = m_resetAnimCurve.Evaluate(t);
-
-            composer.CameraDistance = Mathf.Lerp(m_resetAnimZoom, m_defaultZooom, curveValue);
-            targetCameraDistance = composer.CameraDistance; // Keep target in sync
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    // Public method for runtime boundary adjustment
-    public void SetBoundaryRadius(float radius)
-    {
-        boundaryRadius = Mathf.Max(0f, radius);
-    }
-
-    // Visualization in Scene view
-    private void OnDrawGizmosSelected()
-    {
-        // Draw boundary circle
-        Gizmos.color = Color.yellow;
-        DrawCircle(Vector3.zero, boundaryRadius, 64);
-
-        // Draw current follow target position if available
-        if (followTarget != null)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(followTarget.position, 2f);
-            
-            // Draw line to center
-            Gizmos.color = Color.cyan * 0.5f;
-            Vector3 flatTarget = new Vector3(followTarget.position.x, 0f, followTarget.position.z);
-            Gizmos.DrawLine(Vector3.zero, flatTarget);
-        }
-    }
-
-    private void DrawCircle(Vector3 center, float radius, int segments)
-    {
-        float angleStep = 360f / segments;
-        Vector3 prevPoint = center + new Vector3(radius, 0f, 0f);
-
-        for (int i = 1; i <= segments; i++)
-        {
-            float angle = i * angleStep * Mathf.Deg2Rad;
-            Vector3 newPoint = center + new Vector3(Mathf.Cos(angle) * radius, 0f, Mathf.Sin(angle) * radius);
-            Gizmos.DrawLine(prevPoint, newPoint);
-            prevPoint = newPoint;
         }
     }
 }

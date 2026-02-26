@@ -40,7 +40,6 @@ public partial class GameHandler : Singleton<GameHandler>
     {
         GameData.Instance.IncrementTrackedValue(TrackedValueType.RunCount, 1);
         CameraController.Instance.SetControl(false);
-        CameraController.Instance.ResetAnim();
     
     
         FadeManager.Instance.FadeIn(() =>
@@ -63,8 +62,6 @@ public partial class GameHandler : Singleton<GameHandler>
     
         UIHandler.Instance.GetContainer<TeckTreeUIC>().Close();
         CameraController.Instance.SetControl(false);
-    
-        CameraController.Instance.NewStartAnim();
     
         DespawnPooledObjectAndTuto();
     
