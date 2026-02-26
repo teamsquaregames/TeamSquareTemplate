@@ -100,115 +100,9 @@ public class GameData : ScriptableObject
 	}
 
 	#endregion
-
-	#region FTUE
-
-	[Header("FTUE")]
-	public List<string> completedFtueSteps = new List<string>();
-
-	#endregion
-
-	#region Quest Objective Snapshots
-	[Header("Quest")]
-	public int currentQuestIndex = 0;
-	public List<string> completedQuestIds = new List<string>();
-	public SerializableDictionary<string, double> questObjectiveSnapshots = new SerializableDictionary<string, double>();
 	
-	public void SetQuestObjectiveSnapshot(string snapshotKey, double value)
-	{
-		if (questObjectiveSnapshots.ContainsKey(snapshotKey))
-			questObjectiveSnapshots[snapshotKey] = value;
-		else
-			questObjectiveSnapshots.Add(snapshotKey, value);
-	}
-	
-	public double GetQuestObjectiveSnapshot(string snapshotKey)
-	{
-		if (questObjectiveSnapshots.ContainsKey(snapshotKey))
-			return questObjectiveSnapshots[snapshotKey];
-		
-		return 0;
-	}
-	
-	public void ClearQuestObjectiveSnapshots()
-	{
-		questObjectiveSnapshots.Clear();
-	}
-	
-	#endregion
-
-	#region Tracked Values
-
-	[Header("Value Tracker")]
-	public SerializableDictionary<TrackedValueType, TrackedValue> trackedValues = new SerializableDictionary<TrackedValueType, TrackedValue>();
-	[ES3NonSerializable] public Action<TrackedValueType, double> OnTrackedValueChanged;
-	
-	public void IncrementTrackedValue(TrackedValueType type, double amount = 1f)
-	{
-		if (trackedValues.ContainsKey(type))
-			trackedValues[type].Increment(amount);
-		else
-			trackedValues.Add(type, new TrackedValue(type, amount));
-		
-		OnTrackedValueChanged?.Invoke(type, trackedValues[type].value);
-	}
-
-	public void DecrementTrackedValue(TrackedValueType type, double amount = 1f)
-	{
-		if (trackedValues.ContainsKey(type))
-		{
-			trackedValues[type].Increment(-amount);
-			if (trackedValues[type].value < 0)
-				trackedValues[type].SetValue(0);
-		}
-		
-		OnTrackedValueChanged?.Invoke(type, trackedValues[type].value);
-	}
-    
-	public void SetTrackedValue(TrackedValueType type, double value)
-	{
-		if (trackedValues.ContainsKey(type))
-			trackedValues[type].SetValue(value);
-		else
-			trackedValues.Add(type, new TrackedValue(type, value));
-		
-		OnTrackedValueChanged?.Invoke(type, trackedValues[type].value);
-	}
-    
-	public double GetTrackedValue(TrackedValueType type)
-	{
-		if (trackedValues.ContainsKey(type))
-			return trackedValues[type].value;
-		
-		return 0f;
-	}
-    
-	public void ResetTrackedValue(TrackedValueType type)
-	{
-		if (trackedValues.ContainsKey(type))
-			trackedValues[type].Reset();
-		
-		OnTrackedValueChanged?.Invoke(type, trackedValues[type].value);
-	}
-    
-	public void ResetAllTrackedValues()
-	{
-		foreach (var value in trackedValues.Values)
-			value.Reset();
-	}
-
-	public Dictionary<TrackedValueType, double> GetAllValues()
-	{
-		Dictionary<TrackedValueType, double> allValues = new Dictionary<TrackedValueType, double>();
-		foreach (var kvp in trackedValues)
-			allValues[kvp.Key] = kvp.Value.value;
-		return allValues;
-	}
-
-	#endregion
-
 	#region Currencies
-	
+	[Header("Currencies")]
 	public SerializableDictionary<Currency, double> currencies = new SerializableDictionary<Currency, double>();
 
 	[Button]
@@ -316,7 +210,114 @@ public class GameData : ScriptableObject
 	
 	#endregion
 
+	#region FTUE
+
+	[Header("FTUE")]
+	public List<string> completedFtueSteps = new List<string>();
+
+	#endregion
+
+	#region Quest Objective Snapshots
+	[Header("Quest")]
+	public int currentQuestIndex = 0;
+	public List<string> completedQuestIds = new List<string>();
+	public SerializableDictionary<string, double> questObjectiveSnapshots = new SerializableDictionary<string, double>();
+	
+	public void SetQuestObjectiveSnapshot(string snapshotKey, double value)
+	{
+		if (questObjectiveSnapshots.ContainsKey(snapshotKey))
+			questObjectiveSnapshots[snapshotKey] = value;
+		else
+			questObjectiveSnapshots.Add(snapshotKey, value);
+	}
+	
+	public double GetQuestObjectiveSnapshot(string snapshotKey)
+	{
+		if (questObjectiveSnapshots.ContainsKey(snapshotKey))
+			return questObjectiveSnapshots[snapshotKey];
+		
+		return 0;
+	}
+	
+	public void ClearQuestObjectiveSnapshots()
+	{
+		questObjectiveSnapshots.Clear();
+	}
+	
+	#endregion
+
+	#region Tracked Values
+
+	[Header("Value Tracker")]
+	public SerializableDictionary<TrackedValueType, TrackedValue> trackedValues = new SerializableDictionary<TrackedValueType, TrackedValue>();
+	[ES3NonSerializable] public Action<TrackedValueType, double> OnTrackedValueChanged;
+	
+	public void IncrementTrackedValue(TrackedValueType type, double amount = 1f)
+	{
+		if (trackedValues.ContainsKey(type))
+			trackedValues[type].Increment(amount);
+		else
+			trackedValues.Add(type, new TrackedValue(type, amount));
+		
+		OnTrackedValueChanged?.Invoke(type, trackedValues[type].value);
+	}
+
+	public void DecrementTrackedValue(TrackedValueType type, double amount = 1f)
+	{
+		if (trackedValues.ContainsKey(type))
+		{
+			trackedValues[type].Increment(-amount);
+			if (trackedValues[type].value < 0)
+				trackedValues[type].SetValue(0);
+		}
+		
+		OnTrackedValueChanged?.Invoke(type, trackedValues[type].value);
+	}
+    
+	public void SetTrackedValue(TrackedValueType type, double value)
+	{
+		if (trackedValues.ContainsKey(type))
+			trackedValues[type].SetValue(value);
+		else
+			trackedValues.Add(type, new TrackedValue(type, value));
+		
+		OnTrackedValueChanged?.Invoke(type, trackedValues[type].value);
+	}
+    
+	public double GetTrackedValue(TrackedValueType type)
+	{
+		if (trackedValues.ContainsKey(type))
+			return trackedValues[type].value;
+		
+		return 0f;
+	}
+    
+	public void ResetTrackedValue(TrackedValueType type)
+	{
+		if (trackedValues.ContainsKey(type))
+			trackedValues[type].Reset();
+		
+		OnTrackedValueChanged?.Invoke(type, trackedValues[type].value);
+	}
+    
+	public void ResetAllTrackedValues()
+	{
+		foreach (var value in trackedValues.Values)
+			value.Reset();
+	}
+
+	public Dictionary<TrackedValueType, double> GetAllValues()
+	{
+		Dictionary<TrackedValueType, double> allValues = new Dictionary<TrackedValueType, double>();
+		foreach (var kvp in trackedValues)
+			allValues[kvp.Key] = kvp.Value.value;
+		return allValues;
+	}
+
+	#endregion
+	
 	#region Teck Tree Nodes
+	[Header("Teck Tree")]
 	public SerializableDictionary<string, int> teckTreeNodesLevels = new SerializableDictionary<string, int>();
 
 	public int GetNodeLevel(string _nodeID)
@@ -339,6 +340,4 @@ public class GameData : ScriptableObject
 		return teckTreeNodesLevels[_nodeID];
 	}
 	#endregion
-	
-	
 }
