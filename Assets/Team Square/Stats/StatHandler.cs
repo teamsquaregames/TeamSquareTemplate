@@ -36,7 +36,7 @@ public class StatHandler : MyBox.Singleton<StatHandler>
             ApplyModifier(statModifier);
         
 #if UNITY_EDITOR
-        foreach (StatModifier modifier in GameConfig.Instance.CheatSettings.cheatStats)
+        foreach (StatModifier modifier in GameConfig.Instance.cheatSettings.cheatStats)
             ApplyModifier(modifier);
 #endif
     }

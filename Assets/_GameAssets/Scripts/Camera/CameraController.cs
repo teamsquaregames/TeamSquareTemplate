@@ -132,7 +132,7 @@ public class CameraController : MyBox.Singleton<CameraController>
     {
         if (composer == null) return;
 
-        if (UIHandler.Instance != null && UIHandler.Instance.IsOverUI) return;
+        if (UIManager.Instance != null && UIManager.Instance.IsOverUI) return;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
         if (Mathf.Abs(scroll) > 0.01f)

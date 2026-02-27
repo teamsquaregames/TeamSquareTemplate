@@ -27,7 +27,7 @@ public class GameData : ScriptableObject
 	public void Init()
 	{
 #if UNITY_EDITOR
-		if (GameConfig.Instance.CheatSettings.startResetData)
+		if (GameConfig.Instance.cheatSettings.startResetData)
 		{
 			ResetGameData();
 		}
@@ -37,7 +37,7 @@ public class GameData : ScriptableObject
 	[Button]
 	public void Save()
 	{
-		if (GameConfig.Instance.CheatSettings.preventSave)
+		if (GameConfig.Instance.cheatSettings.preventSave)
 			return;
 			
 		ES3.Save("GameData", this);
@@ -138,7 +138,7 @@ public class GameData : ScriptableObject
 		Currency currency = _currencyAsset.Currency;
 		if (_currencyAsset == null || currencies == null) return false;
 
-		if (currencies.ContainsKey(currency) || GameConfig.Instance.CheatSettings.noCurrencyRequired)
+		if (currencies.ContainsKey(currency) || GameConfig.Instance.cheatSettings.noCurrencyRequired)
 		{
 			double current = currencies[currency];
 			double newValue = current > amount ? current - amount : 0UL;
@@ -153,7 +153,7 @@ public class GameData : ScriptableObject
 
 	public bool HasEnoughCurrency(CurrencyAsset _currencyAsset, double _amount, bool _feedBack = false)
 	{
-		if (GameConfig.Instance.CheatSettings.noCurrencyRequired)
+		if (GameConfig.Instance.cheatSettings.noCurrencyRequired)
 			return true;
 
 		Currency currency = _currencyAsset.Currency;
@@ -201,7 +201,7 @@ public class GameData : ScriptableObject
 
 	public void ResetRunCurrencies()
 	{
-		foreach (CurrencyAsset currencyAsset in GameConfig.Instance.GameSettings.resetedCurrency)
+		foreach (CurrencyAsset currencyAsset in GameConfig.Instance.gameSettings.resetedCurrency)
 		{
 			if (Instance.currencies.ContainsKey(currencyAsset.Currency))
 				Instance.currencies[currencyAsset.Currency] = 0;

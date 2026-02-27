@@ -21,7 +21,7 @@ public class Bootstraper : MonoBehaviour
 
     private static void LoadNextScene()
     {
-        if (GameConfig.Instance.CheatSettings.noMenu)
+        if (GameConfig.Instance.cheatSettings.noMenu)
             SceneManager.LoadSceneAsync("MainScene", LoadSceneMode.Single);
         else
             SceneManager.LoadSceneAsync("MenuScene", LoadSceneMode.Single);

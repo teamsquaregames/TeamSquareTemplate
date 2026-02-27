@@ -259,7 +259,7 @@ private void TriggerTutorialStep()
             if (validateEvent == TutorialEvent.OnClick && m_active)
             {
                 float timeSinceActivation = Time.realtimeSinceStartup - m_stepActivationTime;
-                if (timeSinceActivation < GameConfig.Instance.GameSettings.delayBeforeCanValidateOnClick)
+                if (timeSinceActivation < GameConfig.Instance.gameSettings.delayBeforeCanValidateOnClick)
                 {
                     return;
                 }
@@ -301,7 +301,7 @@ private void TriggerTutorialStep()
 
         public void Init()
         {
-            if (GameConfig.Instance.CheatSettings.noFTUE)
+            if (GameConfig.Instance.cheatSettings.noFTUE)
                 return;
 
             foreach (TutorialStep tutorialStep in m_tutorialSteps)

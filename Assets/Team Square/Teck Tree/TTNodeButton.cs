@@ -1,8 +1,6 @@
-using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Utils;
-using Utils.UI;
 using UnityEngine.UI;
 using GIGA.AutoRadialLayout;
 using UnityEngine.EventSystems;
@@ -18,9 +16,7 @@ public class TTNodeButton : CustomButton
     [TitleGroup("Dependencies")]
     [SerializeField, Required] private TTNodeAsset m_asset;
     [TitleGroup("Dependencies")]
-    [SerializeField, Required] private RadialLayoutNode m_node;
-    [TitleGroup("Dependencies")]
-    [SerializeField, Required] private RectTransform m_rectTransform;
+    [SerializeField, Required] private RadialLayoutNode m_radialLayoutNode;
     [TitleGroup("Dependencies - Display")]
     [SerializeField, Required] private Image m_icon;
     [TitleGroup("Dependencies - Display")]
@@ -35,8 +31,6 @@ public class TTNodeButton : CustomButton
     [SerializeField] private SerializableDictionary<NodeRank, GameObject> m_ranksVisuals;
     [TitleGroup("Dependencies - Display")]
     [SerializeField] private GameObject m_freeIcon;
-    [TitleGroup("Dependencies - Display")]
-    [SerializeField] private GameObject m_chestIcon;
     [TitleGroup("Dependencies - Display")]
     [SerializeField] private GameObject m_levelsParent;
     [TitleGroup("Dependencies - Display")]
@@ -58,8 +52,6 @@ public class TTNodeButton : CustomButton
     [SerializeField] private bool m_lockedByDefault = true;
     [TitleGroup("Settings")]
     [SerializeField] private bool m_demoLocked = false;
-    [TitleGroup("Settings - Details Offset")]
-    [SerializeField] private Vector2 m_detailsOffsetPercent = new Vector2(10f, 10f);
 
     [TitleGroup("Settings")]
     [SerializeField] private float m_level0Opacity = .3f;
@@ -71,45 +63,41 @@ public class TTNodeButton : CustomButton
     [SerializeField] private Color m_defaultSheenColor = Color.white;
     [TitleGroup("Settings")]
     [SerializeField] private Color m_hoverSheenColor = Color.red;
-
-    [TitleGroup("Settings - Max Level Flash")]
-    [SerializeField] private float m_maxLevelFlashDuration = 0.6f;
-    [TitleGroup("Settings - Max Level Flash")]
-    [SerializeField] private float m_maxLevelFlashStartScale = 1.5f;
-    [TitleGroup("Settings - Max Level Flash")]
-    [SerializeField] private float m_maxLevelFlashEndScale = 0.5f;
-    [TitleGroup("Settings - Max Level Flash")]
-    [SerializeField] private Ease m_maxLevelFlashScaleEase = Ease.OutQuad;
-    [TitleGroup("Settings - Max Level Flash")]
-    [SerializeField] private Ease m_maxLevelFlashFadeEase = Ease.InQuad;
-
-
-
-    [TitleGroup("Variables")]
-    private UIHandler m_uiHandler;
+    
+    private UIManager m_uiManager;
     private StatHandler m_statHandler;
-    private TTNodeDetails m_detailsPanel;
     private RadialLayoutLink m_arrivingLink;
     private int m_level = 0;
     private Coroutine m_colorLerpCoroutine;
     private bool m_isLockInitialized = false;
     private PanelController m_panelController;
-
+    
+    private float m_maxLevelFlashDuration = 0.6f;
+    private float m_maxLevelFlashStartScale = 1.5f;
+    private float m_maxLevelFlashEndScale = 0.5f;
+    private Ease m_maxLevelFlashScaleEase = Ease.OutQuad;
+    private Ease m_maxLevelFlashFadeEase = Ease.InQuad;
+    
     public TTNodeAsset LinkedNodeAsset => m_asset;
     public PanelController PanelController { get; set; }
     #endregion
 
+    [Button]
+    private void GetReferences()
+    {
+        m_button = GetComponent<Button>();
+        m_radialLayoutNode = GetComponent<RadialLayoutNode>();
+        m_contentCanvasGroup = GetComponentInChildren<CanvasGroup>();
+    }
+
     public override void Init()
     {
-        m_asset = m_asset.GetAssetForCurrentMode();
-        
-        m_uiHandler = UIHandler.Instance;
+        m_uiManager = UIManager.Instance;
         m_statHandler = StatHandler.Instance;
-        m_detailsPanel = m_uiHandler.GetContainer<TTNodeDetails>();
 
         m_icon.sprite = m_asset.Icon;
 
-        m_node.onSetArrivingLink += onSetArrivingLink;
+        m_radialLayoutNode.onSetArrivingLink += onSetArrivingLink;
         UpdateVisuals();
     }
 
@@ -125,7 +113,7 @@ public class TTNodeButton : CustomButton
 
         if (m_level > 0)
         {
-            m_demoLockObject.SetActive(m_demoLocked && GameConfig.Instance.GameSettings.isDemo);
+            m_demoLockObject.SetActive(m_demoLocked && GameConfig.Instance.gameSettings.isDemo);
 
             if (m_asset.BonusesApplicationMode == BonusesApplicationMode.OnLevelUp)
             {
@@ -140,19 +128,19 @@ public class TTNodeButton : CustomButton
                     GameData.Instance.AddCurrency(currency.currencyAsset, currency.GetAmount(m_level - 1));
             }
 
-            foreach (RadialLayoutNode child in m_node.GetChildNodes())
+            foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
                 child.GetComponent<TTNodeButton>().SetLock(false);
 
             SetLock(false);
             SetActivatedNodeFeedback(true);
             
-            foreach (RadialLayoutNode child in m_node.GetChildNodes())
+            foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
                 child.GetComponent<TTNodeButton>().SetLock(false);
         }
         else
         {
             m_sheen.gameObject.SetActive(false);
-            m_demoLockObject.SetActive(m_demoLocked && GameConfig.Instance.GameSettings.isDemo);
+            m_demoLockObject.SetActive(m_demoLocked && GameConfig.Instance.gameSettings.isDemo);
 
             if (m_subLayoutBG != null)
                 m_subLayoutBG.SetActive(false);
@@ -165,7 +153,7 @@ public class TTNodeButton : CustomButton
                     SetLock(false);
             }
             
-            foreach (RadialLayoutNode child in m_node.GetChildNodes())
+            foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
                 child.GetComponent<TTNodeButton>().SetLock(true);
 
             m_levelsParent.SetActive(false);
@@ -209,15 +197,6 @@ public class TTNodeButton : CustomButton
         }
     }
 
-    private void Update()
-    {
-        if (m_isHovered)
-        {
-            Vector3 detailsPosition = CalculateDetailsPosition();
-            m_detailsPanel.Open(m_asset, detailsPosition);
-        }
-    }
-
     public override void OnPointerEnter(PointerEventData eventData)
     {
         if (!m_button.interactable)
@@ -228,10 +207,6 @@ public class TTNodeButton : CustomButton
 
         base.OnPointerEnter(eventData);
         
-        // Calculate position with resolution and zoom awareness
-        Vector3 detailsPosition = CalculateDetailsPosition();
-        m_detailsPanel.Open(m_asset, detailsPosition);
-
         if (m_colorLerpCoroutine != null)
             StopCoroutine(m_colorLerpCoroutine);
         m_colorLerpCoroutine = StartCoroutine(LerpColor(m_sheen, m_hoverSheenColor, m_lerpDuration));
@@ -245,8 +220,6 @@ public class TTNodeButton : CustomButton
             return;
 
         base.OnPointerExit(eventData);
-
-        m_detailsPanel.Close();
 
         if (m_colorLerpCoroutine != null)
             StopCoroutine(m_colorLerpCoroutine);
@@ -271,9 +244,7 @@ public class TTNodeButton : CustomButton
         SetInteractible(!m_isLocked);
         m_contentCanvasGroup.alpha = m_isLocked && !_highlighted ? 0 : 1;
     }
-
-
-    [Button]
+    
     private void onSetArrivingLink(RadialLayoutLink _link)
     {
         // this.Log($"onSetArrivingLink({_link.name})");
@@ -282,7 +253,7 @@ public class TTNodeButton : CustomButton
         {
             m_arrivingLink.SetProgressInstant(0f);
             m_arrivingLink.gameObject.SetActive(!m_isLocked);
-            m_node.onSetArrivingLink -= onSetArrivingLink;
+            m_radialLayoutNode.onSetArrivingLink -= onSetArrivingLink;
         }
         else
         {
@@ -307,7 +278,7 @@ public class TTNodeButton : CustomButton
 
     private void TryLevelUpNode()
     {
-        if (m_demoLocked && GameConfig.Instance.GameSettings.isDemo)
+        if (m_demoLocked && GameConfig.Instance.gameSettings.isDemo)
         {
             NegativeClickBounce();
             PlayNegativeClickSound();
@@ -371,8 +342,6 @@ public class TTNodeButton : CustomButton
             foreach (Cost currency in m_asset.Currencies)
                 GameData.Instance.AddCurrency(currency.currencyAsset, currency.GetAmount(m_level - 1));
         }
-
-        m_detailsPanel.LevelUp(m_asset, m_level);
         
         if (m_level == m_asset.MaxLevel)
             PlayMaxLevelFlashEffect();
@@ -382,7 +351,7 @@ public class TTNodeButton : CustomButton
             SetActivatedNodeFeedback(true);
             
             //Activate children
-            foreach (RadialLayoutNode child in m_node.GetChildNodes())
+            foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
                 child.GetComponent<TTNodeButton>().SetLock(false);
         }
 
@@ -452,7 +421,7 @@ public class TTNodeButton : CustomButton
         if (m_arrivingLink != null && activated)
             m_arrivingLink.ProgressValue = 1;
 
-        if (m_subLayoutBG != null && m_node.IsSubLayout)
+        if (m_subLayoutBG != null && m_radialLayoutNode.IsSubLayout)
             m_subLayoutBG.SetActive(activated);
 
         m_levelsParent.SetActive(activated);
@@ -460,17 +429,6 @@ public class TTNodeButton : CustomButton
         {
             m_levelActivatedObjects[i].SetActive(i < m_level);
         }
-    }
-
-    private Vector3 CalculateDetailsPosition()
-    {
-        Vector3 pixelOffset = new Vector3(
-            (m_detailsOffsetPercent.x / 100f) * Screen.width,
-            (m_detailsOffsetPercent.y / 100f) * Screen.height,
-            0f
-        );
-
-        return m_rectTransform.position + pixelOffset;
     }
 
     private IEnumerator LerpColor(Image _image, Color _targetColor, float _duration)
@@ -554,17 +512,6 @@ public class TTNodeButton : CustomButton
             else
             {
                 m_freeIcon.SetActive(false);
-            }
-        }
-        if (m_chestIcon != null)
-        {
-            if (m_asset != null && m_asset.BonusesApplicationMode == BonusesApplicationMode.InChest)
-            {
-                m_chestIcon.SetActive(true);
-            }
-            else
-            {
-                m_chestIcon.SetActive(false);
             }
         }
         m_previousAsset = m_asset;

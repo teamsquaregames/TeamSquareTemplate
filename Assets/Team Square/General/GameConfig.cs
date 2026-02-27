@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 [CreateAssetMenu(menuName = "Config/GameConfig")]
@@ -22,24 +23,15 @@ public class GameConfig : ScriptableObject
 
     //-------------------------------------
 
-    [SerializeField] private Debuging debuging = new Debuging();
-    public Debuging DebugSettings => debuging;
-    
-    [SerializeField] private Cheat cheat = new Cheat();
-    public Cheat CheatSettings => cheat;
-    
-    [SerializeField] private Game game = new Game();
-    public Game GameSettings => game;
-    
-
-    public StatHandler StatHandler => throw new System.NotImplementedException();
-
-    public StatModifier[] StatModifiers => cheat.cheatStats;
+    public DebuggingSettings debuggingSettings = new DebuggingSettings();
+    public CheatSettings cheatSettings = new CheatSettings();
+    public GameSettings gameSettings = new GameSettings();
+    public UISettings uiSettings = new UISettings();
 
     //-------------------------------------
 
     [System.Serializable]
-    public partial class Cheat
+    public class CheatSettings
     {
         public StatModifier[] cheatStats = new StatModifier[0];
         public bool preventSave = false;
@@ -50,13 +42,31 @@ public class GameConfig : ScriptableObject
     }
 
     [System.Serializable]
-    public partial class Debuging
+    public class DebuggingSettings
     {
         public bool developmentBuild;
     }
 
+    public class UISettings
+    {
+        [Space(10)]
+        public bool bounceOnClick = true;
+        public float clickScaleDuration = 0.07f;
+        public Vector3 clickScale = Vector3.one * 0.95f;
+        public Vector3 clickBounceScale = Vector3.one * 1.1f;
+
+        [Space(10)]
+        public float hoverScaleDuration = 0.15f;
+        public Vector3 hoverScale = Vector3.one * 1.05f;
+
+        [Space(10)]
+        public float lockedShakeDuration = 0.3f;
+        public float lockedShakeStrenght = 30f;
+        public int lockedShakeVibrato = 20;
+    }
+
     [System.Serializable]
-    public partial class Game
+    public class GameSettings
     {
         public bool isDemo = false;
 
@@ -66,7 +76,6 @@ public class GameConfig : ScriptableObject
 
         [Space, Header("Tutorial")]
         public float delayBeforeCanValidateOnClick = 0.2f;
-        public int buildingPlacedForClaimCostlineTutorial = 6;
         
 
         public double GetResetCurrencyNeeded(int index)

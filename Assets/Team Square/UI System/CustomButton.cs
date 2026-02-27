@@ -30,23 +30,8 @@ public class CustomButton : AUIElement, IPointerClickHandler, IPointerEnterHandl
     [ReadOnly]
     [SerializeField] protected int m_index;
     public int Index => m_index;
-
-    [Space(10)]
-    [SerializeField] protected bool m_bounceOnClick = true;
-    [SerializeField] protected float m_clickScaleDuration = 0.07f;
-    [SerializeField] protected Vector3 m_clickScale = Vector3.one * 0.95f;
-    [SerializeField] protected Vector3 m_clickBounceScale = Vector3.one * 1.1f;
-
-    [Space(10)]
-    [SerializeField] protected float m_hoverScaleDuration = 0.15f;
-    [SerializeField] protected Vector3 m_hoverScale = Vector3.one * 1.05f;
-    [SerializeField] protected Ease m_hoverEaseIn = Ease.OutQuad;
-    [SerializeField] protected Ease m_hoverEaseOut = Ease.InQuad;
-
-    [Space(10)]
-    [SerializeField] protected float m_lockedShakeDuration = 0.3f;
-    [SerializeField] protected float m_lockedShakeStrenght = 30f;
-    [SerializeField] protected int m_lockedShakeVibrato = 20;
+    public GameConfig.UISettings UISettings => GameConfig.Instance.uiSettings;
+    
     #endregion
 
     #region Var
@@ -150,18 +135,18 @@ public class CustomButton : AUIElement, IPointerClickHandler, IPointerEnterHandl
         m_isPressed = false;
 
         // Bounce back on release
-        if (m_bounceOnClick)
+        if (UISettings.bounceOnClick)
             ClickBounce();
         else
         {
             // If no bounce, just return to hover or normal scale
-            Vector3 targetScale = m_isHovered ? m_hoverScale : Vector3.one;
+            Vector3 targetScale = m_isHovered ? UISettings.hoverScale : Vector3.one;
             if (m_hoverSequence != null && m_hoverSequence.IsActive())
                 m_hoverSequence.Complete();
   
             
             m_hoverSequence = DOTween.Sequence().SetUpdate(true);
-            m_hoverSequence.Join(m_content.DOScale(targetScale, m_hoverScaleDuration)
+            m_hoverSequence.Join(m_content.DOScale(targetScale, UISettings.hoverScaleDuration)
                 .SetEase(Ease.OutQuad)
                 .SetUpdate(true));
         }
@@ -240,25 +225,25 @@ public class CustomButton : AUIElement, IPointerClickHandler, IPointerEnterHandl
     {
         if (m_tweenSequence != null && m_tweenSequence.IsActive() && m_tweenSequence.IsPlaying()) return;
         
-        Vector3 targetScale = m_isHovered ? m_hoverScale : Vector3.one;
+        Vector3 targetScale = m_isHovered ? UISettings.hoverScale : Vector3.one;
         
         m_tweenSequence = DOTween.Sequence().SetUpdate(true);
-        m_tweenSequence.Append(m_content.DOScale(m_clickBounceScale, m_clickScaleDuration).SetEase(Ease.OutQuad));
-        m_tweenSequence.Append(m_content.DOScale(targetScale, m_clickScaleDuration).SetEase(Ease.OutQuad));
+        m_tweenSequence.Append(m_content.DOScale(UISettings.clickBounceScale, UISettings.clickScaleDuration).SetEase(Ease.OutQuad));
+        m_tweenSequence.Append(m_content.DOScale(targetScale, UISettings.clickScaleDuration).SetEase(Ease.OutQuad));
     }
 
     public void LockedClickBounce()
     {
         if (m_tweenSequence != null) if (m_tweenSequence.IsPlaying()) return;
         m_tweenSequence = DOTween.Sequence().SetUpdate(true);
-        m_tweenSequence.Append(m_lockedContent.DOShakeAnchorPos(m_lockedShakeDuration, m_lockedShakeStrenght, m_lockedShakeVibrato, 90, false, true, ShakeRandomnessMode.Harmonic).SetEase(Ease.OutQuad));
+        m_tweenSequence.Append(m_lockedContent.DOShakeAnchorPos(UISettings.lockedShakeDuration, UISettings.lockedShakeStrenght, UISettings.lockedShakeVibrato, 90, false, true, ShakeRandomnessMode.Harmonic).SetEase(Ease.OutQuad));
     }
 
     public void NegativeClickBounce()
     {
         if (m_tweenSequence != null && m_tweenSequence.IsActive() && m_tweenSequence.IsPlaying()) return;
         m_tweenSequence = DOTween.Sequence().SetUpdate(true);
-        m_tweenSequence.Append(m_content.DOShakeAnchorPos(m_lockedShakeDuration, m_lockedShakeStrenght, m_lockedShakeVibrato, 90, false, true, ShakeRandomnessMode.Harmonic).SetEase(Ease.OutQuad));
+        m_tweenSequence.Append(m_content.DOShakeAnchorPos(UISettings.lockedShakeDuration, UISettings.lockedShakeStrenght, UISettings.lockedShakeVibrato, 90, false, true, ShakeRandomnessMode.Harmonic).SetEase(Ease.OutQuad));
     }
 
     public void Hide(bool _isHidden)

@@ -6,13 +6,9 @@ public abstract class AUIElement : MonoBehaviour
     [TitleGroup("Dependencies")]
     [SerializeField, Required] protected RectTransform m_content;
 
-    [TitleGroup("Settings")]
-    [SerializeField] private bool m_autoInit = true;
-
     protected virtual void Start()
     {
-        if (m_autoInit)
-            Init();
+        Init();
     }
 
     public virtual void Init() { }

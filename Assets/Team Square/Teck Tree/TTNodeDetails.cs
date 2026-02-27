@@ -55,7 +55,7 @@ public class TTNodeDetails : UIContainer
 
         /// Show/place panel
         m_rectTransform.position = _position;
-        base.Open();
+        //base.Open();
     }
 
     private void HandleLevelDisplay()

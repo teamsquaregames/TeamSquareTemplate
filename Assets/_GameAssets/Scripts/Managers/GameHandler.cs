@@ -27,8 +27,7 @@ public partial class GameHandler : Singleton<GameHandler>
     {
         m_gameConfig = GameConfig.Instance;
         m_gameData = GameData.Instance;
-    
-        UIHandler.Instance.Init();
+        
         TutorialManager.Instance.Init();
     
         SoundManager.Instance.PlayMusic(SoundKeys.music);
@@ -46,13 +45,13 @@ public partial class GameHandler : Singleton<GameHandler>
         {
             DespawnPooledObjectAndTuto();
     
-            foreach (CurrencyAsset currency in m_gameConfig.GameSettings.resetedCurrency)
+            foreach (CurrencyAsset currency in m_gameConfig.gameSettings.resetedCurrency)
             {
                 m_gameData.DepleteCurrency(currency);
             }
             m_gameData.ResetRun();
             
-            UIHandler.Instance.GetContainer<TeckTreeUIC>().Open();
+            UIManager.Instance.GetCanvas<TeckTreeCanvas>().Open();
         }, m_resetDelay);
     }
     
@@ -60,7 +59,7 @@ public partial class GameHandler : Singleton<GameHandler>
     {
         SetPause(false);
     
-        UIHandler.Instance.GetContainer<TeckTreeUIC>().Close();
+        UIManager.Instance.GetCanvas<TeckTreeCanvas>().Close();
         CameraController.Instance.SetControl(false);
     
         DespawnPooledObjectAndTuto();

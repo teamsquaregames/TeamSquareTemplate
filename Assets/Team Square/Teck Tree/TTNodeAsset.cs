@@ -18,7 +18,6 @@ public class TTNodeAsset : ScriptableObject
     [SerializeField] protected string m_displayName;
     [SerializeField] private string m_id;
     [SerializeField] private int m_maxLevel;
-    [SerializeField] private TTNodeAsset m_alternativeModeAsset = null;
 
     [PreviewField(ObjectFieldAlignment.Center, Height = 100f)]
     [SerializeField] protected Sprite m_icon;
@@ -52,13 +51,6 @@ public class TTNodeAsset : ScriptableObject
     #endregion
 
     #region Helper
-    public TTNodeAsset GetAssetForCurrentMode()
-    {
-        if (m_alternativeModeAsset != null)
-            return m_alternativeModeAsset;
-        else
-            return this;
-    }
     
     [TitleGroup("Cost")]
     [HorizontalGroup("Array", LabelWidth = 80)]
