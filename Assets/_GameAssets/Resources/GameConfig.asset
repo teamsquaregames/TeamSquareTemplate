@@ -12,3 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e636d1db3887f4083b6e440cd10f73, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  debuggingSettings:
+    developmentBuild: 0
+  cheatSettings:
+    cheatStats: []
+    preventSave: 0
+    startResetData: 1
+    noFTUE: 0
+    noCurrencyRequired: 1
+    noMenu: 0
+  gameSettings:
+    isDemo: 0
+    resetedCurrency: []
+    resetCurrenciesNeeded: []
+    delayBeforeCanValidateOnClick: 0.2

@@ -1,41 +1,29 @@
-using System;
 using System.Text;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Utils;
 using Utils.UI;
 
 
-public class TTNodeDetails : UIContainer
+public class TTNodeDetails : AUIElement
 {
     [TitleGroup("Dependencies")]
     [SerializeField, Required] private RectTransform m_rectTransform;
     [SerializeField, Required] private Image m_icon;
     [SerializeField, Required] private TMP_Text m_name;
     [SerializeField, Required] private TMP_Text m_description;
-    [SerializeField, Required] private CostUIE m_costUIE;
+    [SerializeField, Required] private CurrencyCostUIE m_currencyCostUIE;
     [SerializeField, Required] private GameObject[] m_levelObjects;
     [SerializeField, Required] private GameObject[] m_enabledLevelObjects;
-
-
-    private GameData m_gameData;
+    
     private TTNodeAsset m_currentAsset;
 
-
-    void Start()
+    public void Setup(TTNodeAsset _asset)
     {
-        m_gameData = GameData.Instance;
-    }
-
-    public void Open(TTNodeAsset _asset, Vector3 _position)
-    {
-        // this.Log("Opening TTNodeDetails panel.");
-
         m_currentAsset = _asset;
-        int level = m_gameData.GetNodeLevel(_asset.ID);
+        int level = GameData.Instance.GetNodeLevel(_asset.ID);
 
         /// Set new informations
         m_icon.sprite = _asset.Icon;
@@ -43,19 +31,14 @@ public class TTNodeDetails : UIContainer
         m_description.text = BuildNodeDescription(_asset, level);
 
         if (level >= _asset.MaxLevel)
-            m_costUIE.Hide();
+            m_currencyCostUIE.Hide();
         else
         {
-            m_costUIE.Show();
-            m_costUIE.SetCurrencyAsset(_asset.Cost[0].currencyAsset);
-            m_costUIE.SetValue(_asset.Cost[0].GetAmount(level));
+            m_currencyCostUIE.Show();
+            m_currencyCostUIE.SetCurrencyCost(_asset.Cost[0].currencyAsset, _asset.Cost[0].GetAmount(level));
         }
 
         HandleLevelDisplay();
-
-        /// Show/place panel
-        m_rectTransform.position = _position;
-        //base.Open();
     }
 
     private void HandleLevelDisplay()
@@ -64,7 +47,7 @@ public class TTNodeDetails : UIContainer
             m_levelObjects[i].SetActive(i < m_currentAsset.MaxLevel);
 
         for (int i = 0; i < m_enabledLevelObjects.Length; i++)
-            m_enabledLevelObjects[i].SetActive(i < m_gameData.GetNodeLevel(m_currentAsset.ID));
+            m_enabledLevelObjects[i].SetActive(i < GameData.Instance.GetNodeLevel(m_currentAsset.ID));
     }
 
     public void LevelUp(TTNodeAsset _asset, int level)
@@ -73,12 +56,11 @@ public class TTNodeDetails : UIContainer
         m_description.text = BuildNodeDescription(_asset, level);
 
         if (level >= _asset.MaxLevel)
-            m_costUIE.Hide();
+            m_currencyCostUIE.Hide();
         else
         {
-            m_costUIE.Show();
-            m_costUIE.SetCurrencyAsset(m_costUIE.CurrencyAsset);
-            m_costUIE.SetValue(_asset.Cost[0].GetAmount(level));
+            m_currencyCostUIE.Show();
+            m_currencyCostUIE.SetCurrencyCost(m_currencyCostUIE.CurrencyAsset, _asset.Cost[0].GetAmount(level));
         }
 
         HandleLevelDisplay();

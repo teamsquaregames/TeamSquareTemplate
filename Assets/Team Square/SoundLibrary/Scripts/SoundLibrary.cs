@@ -14,7 +14,7 @@ public class SoundLibrary : ScriptableObject
     
     public SerializableDictionary<string, Sound> Sounds => m_sounds;
     
-    private const string ENUM_FILE_PATH = "Assets/Plugins/Toma/SoundLibrary/Scripts/SoundKeys.cs";
+    private const string ENUM_FILE_PATH = "Assets/Team Square/SoundLibrary/Scripts/SoundKeys.cs";
     
     [Button]
     private void GenerateKeys()

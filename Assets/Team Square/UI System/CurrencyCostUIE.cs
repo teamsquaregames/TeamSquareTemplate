@@ -16,12 +16,11 @@ public class CurrencyCostUIE : AUIElement
     public CurrencyAsset CurrencyAsset => m_currency;
     [SerializeField] private ulong m_cost;
 
-    private GameData m_gameData;
+    private GameData m_gameData => GameData.Instance;
 
 
     public override void Init()
     {
-        m_gameData = GameData.Instance;
         m_gameData.onCurrencyChanged += OnCurrencyChanged;
     }
 

@@ -31,3 +31,24 @@ MonoBehaviour:
     isSceneGameObject: 0
     isAsset: 1
     _typeString: GameAssets, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - _obj: {fileID: 5198438277419480879, guid: e7f5d61eb11993041a98d4875c1077b8, type: 3}
+    globalId:
+      globalObjectIdString: GlobalObjectId_V1-1-e7f5d61eb11993041a98d4875c1077b8-5198438277419480879-0
+    isSceneGameObject: 0
+    isAsset: 1
+    _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - _obj: {fileID: 11400000, guid: 610a480f1560cc04fa6e035cb30e6308, type: 2}
+    globalId:
+      globalObjectIdString: GlobalObjectId_V1-3-610a480f1560cc04fa6e035cb30e6308-11400000-0
+    isSceneGameObject: 0
+    isAsset: 1
+    _typeString: SoundLibrary, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - _obj: {fileID: 6426683890984912173, guid: 4b52f078667e52d4790ab484d853f3ab, type: 3}
+    globalId:
+      globalObjectIdString: GlobalObjectId_V1-1-4b52f078667e52d4790ab484d853f3ab-6426683890984912173-0
+    isSceneGameObject: 0
+    isAsset: 1
+    _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

@@ -58,7 +58,7 @@ public class UIFlyingParticle : MonoBehaviour
     public void OnParticleArrived()
     {
         //Debug.Log("Particle arrived at target!");
-        SoundManager.Instance.PlaySound(SoundKeys.sfx_flyingcurrency);
+        SoundManager.Instance.PlaySound(SoundKeys.ui_currency_gain);
     }
 
     public void OnLastParticleArrived()

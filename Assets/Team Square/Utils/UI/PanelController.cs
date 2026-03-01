@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PanelController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -29,13 +30,13 @@ public class PanelController : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void HandlePan()
     {
-        if (Input.GetMouseButtonDown(2))
+        if (Mouse.current.middleButton.wasPressedThisFrame)
         {
             m_isPanning = true;
             m_lastMousePosition = Input.mousePosition;
         }
 
-        if (Input.GetMouseButtonUp(2))
+        if (Mouse.current.middleButton.wasReleasedThisFrame)
             m_isPanning = false;
 
         // Pan avec la molette enfoncée
@@ -63,7 +64,7 @@ public class PanelController : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void HandleZoom()
     {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        float scroll = Mouse.current.scroll.ReadValue().y / 120f;
 
         if (scroll != 0f)
         {

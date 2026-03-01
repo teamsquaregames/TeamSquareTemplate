@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1734325485524227979}
   - component: {fileID: 3085379676113152923}
   - component: {fileID: 8328404233473037872}
-  - component: {fileID: 7761617264374943961}
   - component: {fileID: 1685738480047585939}
+  - component: {fileID: 7761617264374943961}
   m_Layer: 5
   m_Name: _CanvasHander
   m_TagString: Untagged
@@ -103,6 +103,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!225 &1685738480047585939
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2411042569430108113}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &7761617264374943961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,15 +128,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_canvas: {fileID: 1734325485524227979}
---- !u!225 &1685738480047585939
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2411042569430108113}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0

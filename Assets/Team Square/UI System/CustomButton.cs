@@ -97,7 +97,8 @@ public class CustomButton : AUIElement, IPointerClickHandler, IPointerEnterHandl
 
     public virtual void PlayClickSound()
     {
-        SoundManager.Instance.PlaySound(SoundKeys.ui_button_click);
+        SoundManager.Instance.PlaySound(SoundKeys.ui_button_click_negative);
+        
     }
     
     public virtual void PlayNegativeClickSound()
@@ -174,6 +175,8 @@ public class CustomButton : AUIElement, IPointerClickHandler, IPointerEnterHandl
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
         if (!m_button.interactable || m_isLocked) return;
+
+        ScaleOnHoverEnter();
         
         m_isHovered = true;
         onHoverEnter?.Invoke(m_index);
@@ -181,7 +184,7 @@ public class CustomButton : AUIElement, IPointerClickHandler, IPointerEnterHandl
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        if (!m_button.interactable || m_isLocked) return;
+        if (!m_button.interactable || m_isLocked) return;   
         
         m_isHovered = false;
         m_isPressed = false;

@@ -20,6 +20,8 @@ MonoBehaviour:
     - ambient
     - ui_button_hover
     - ui_currency_gain
+    - ui_TTnode_click
+    - ui_TTnode_maxlevel
     values:
     - clip: {fileID: 8300000, guid: cf2117e58c682ac45ae9c2b7d60f5ca5, type: 3}
       loop: 1
@@ -61,5 +63,19 @@ MonoBehaviour:
       volume: 0.25
       pitchMode: 0
       randomPitchRange: {x: 1.01, y: 1.04}
+      fixedPitch: 1
+      audioMixerGroup: {fileID: 0}
+    - clip: {fileID: 8300000, guid: e8e4110212704ba4b93766923e1b2ef5, type: 3}
+      loop: 0
+      volume: 0.6
+      pitchMode: 0
+      randomPitchRange: {x: 0.9, y: 1.1}
+      fixedPitch: 1
+      audioMixerGroup: {fileID: 0}
+    - clip: {fileID: 8300000, guid: 6de22e542bb9e9b44af140807e71ce85, type: 3}
+      loop: 0
+      volume: 0.5
+      pitchMode: 0
+      randomPitchRange: {x: 0.9, y: 1.1}
       fixedPitch: 1
       audioMixerGroup: {fileID: 0}

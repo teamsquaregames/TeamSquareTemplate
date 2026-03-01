@@ -127,7 +127,6 @@ public class QuestManager : Singleton<QuestManager>
             GameData.Instance.completedQuestIds.Add(currentQuest.questId);
         }
         
-        SoundManager.Instance.PlaySound(SoundKeys.stgr_quest);
         OnQuestCompleted?.Invoke(currentQuest);
         OnQuestCompletedTutorial?.Invoke();
         
