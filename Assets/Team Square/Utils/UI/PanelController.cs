@@ -33,7 +33,7 @@ public class PanelController : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         if (Mouse.current.middleButton.wasPressedThisFrame)
         {
             m_isPanning = true;
-            m_lastMousePosition = Input.mousePosition;
+            m_lastMousePosition = Mouse.current.position.ReadValue();
         }
 
         if (Mouse.current.middleButton.wasReleasedThisFrame)
@@ -42,7 +42,7 @@ public class PanelController : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         // Pan avec la molette enfoncée
         if (m_isPanning)
         {
-            Vector2 currentMousePosition = Input.mousePosition;
+            Vector2 currentMousePosition = Mouse.current.position.ReadValue();
             Vector2 delta = currentMousePosition - m_lastMousePosition;
             Vector2 newPosition = m_contentRect.anchoredPosition + delta * m_panSpeed;
             
@@ -101,7 +101,7 @@ public class PanelController : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         if (eventData.button == PointerEventData.InputButton.Middle)
         {
             m_isPanning = true;
-            m_lastMousePosition = Input.mousePosition;
+            m_lastMousePosition = Mouse.current.position.ReadValue();
         }
     }
 

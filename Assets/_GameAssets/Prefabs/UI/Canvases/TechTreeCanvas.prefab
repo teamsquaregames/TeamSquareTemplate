@@ -1496,13 +1496,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7501467862709522670, guid: e5c605ee99d7be341926ba0bb9641d02, type: 3}
       propertyPath: m_Name
-      value: Node Details
+      value: TT_NodeDetailsUIC
       objectReference: {fileID: 0}
+    - target: {fileID: 7569590742693261468, guid: e5c605ee99d7be341926ba0bb9641d02, type: 3}
+      propertyPath: m_contentCanvasGroup
+      value: 
+      objectReference: {fileID: -4786267396150710457}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7676273082587601631, guid: e5c605ee99d7be341926ba0bb9641d02, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4786267396150710457}
   m_SourcePrefab: {fileID: 100100000, guid: e5c605ee99d7be341926ba0bb9641d02, type: 3}
+--- !u!1 &4908133809477748548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7676273082587601631, guid: e5c605ee99d7be341926ba0bb9641d02, type: 3}
+  m_PrefabInstance: {fileID: 3358181193039699355}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &-4786267396150710457
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4908133809477748548}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &8724784001435012175 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6308981031631114708, guid: e5c605ee99d7be341926ba0bb9641d02, type: 3}
@@ -1881,7 +1905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328404233473037872, guid: e7bbf731359d92b4da3be979d7117d1c, type: 3}
       propertyPath: m_BlockingMask.m_Bits
-      value: 4294967295
+      value: 55
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7761617264374943961, guid: e7bbf731359d92b4da3be979d7117d1c, type: 3}

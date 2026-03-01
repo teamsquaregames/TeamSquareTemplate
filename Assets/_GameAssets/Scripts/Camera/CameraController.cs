@@ -36,7 +36,7 @@ public class CameraController : MyBox.Singleton<CameraController>
     private CinemachinePositionComposer composer;
 
     private Transform followTarget;
-    private Vector3 lastMousePosition;
+    private Vector2 lastMousePosition;
     private float targetCameraDistance;
     #endregion
 
@@ -82,7 +82,7 @@ public class CameraController : MyBox.Singleton<CameraController>
 
         if (Input.GetMouseButton(2))
         {
-            Vector3 delta = Input.mousePosition - lastMousePosition;
+            Vector3 delta = Mouse.current.position.ReadValue() - lastMousePosition;
         
             Vector3 right = transform.right;
             Vector3 forward = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
@@ -152,17 +152,17 @@ public class CameraController : MyBox.Singleton<CameraController>
     {
         if (Mouse.current.middleButton.wasPressedThisFrame)
         {
-            lastMousePosition = Input.mousePosition;
+            lastMousePosition = Mouse.current.position.ReadValue();
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame )
         {
-            Vector3 delta = Input.mousePosition - lastMousePosition;
+            Vector3 delta = Mouse.current.position.ReadValue() - lastMousePosition;
             float rotationY = delta.x * rotationSpeed * Time.deltaTime * PlayerPrefs.GetFloat("CameraSensitivity", 0.5f);
 
             transform.Rotate(Vector3.up, rotationY, Space.World);
 
-            lastMousePosition = Input.mousePosition;
+            lastMousePosition = Mouse.current.position.ReadValue();
         }
     }
 }

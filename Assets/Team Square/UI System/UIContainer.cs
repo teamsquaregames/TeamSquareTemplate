@@ -10,7 +10,8 @@ namespace Utils.UI
     {
         [TitleGroup("Dependencies")]
         [SerializeField, Required] protected GameObject m_content;
-        [SerializeField] private CanvasGroup m_canvasGroup;
+        [SerializeField, Required] private CanvasGroup m_contentCanvasGroup;
+        [SerializeField, Required] private RectTransform m_contentRectTransform;
 
         [TitleGroup("Settings")]
         [SerializeField] protected bool m_enableByDefault;
@@ -34,29 +35,28 @@ namespace Utils.UI
         private Tween m_moveTween;
         private Tween m_waitTween;
         private Vector2 m_initialContentAnchoredPos;
-        private RectTransform m_contentRectTransform;
-        private CanvasGroup m_contentCanvasGroup;
+
+        // private void OnValidate()
+        // {
+        //     if (m_content != null)
+        //     {
+        //         m_contentCanvasGroup = m_content.GetComponent<CanvasGroup>();
+        //         if (m_contentCanvasGroup == null)
+        //         {
+        //             m_contentCanvasGroup = m_content.AddComponent<CanvasGroup>();
+        //         }
+        //         
+        //         m_contentRectTransform = m_content.GetComponent<RectTransform>();
+        //         if (m_contentRectTransform == null)
+        //         {
+        //             m_contentRectTransform = m_content.AddComponent<RectTransform>();
+        //         }
+        //     }
+        // }
+
 
         public bool IsOpen => m_isOpen;
         public bool EnableByDefault => m_enableByDefault;
-
-        private void OnValidate()
-        {
-            if (m_enableFadeIn || m_enableFadeOut)
-            {
-                CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-                m_canvasGroup = canvasGroup != null ? canvasGroup : gameObject.AddComponent<CanvasGroup>();
-            }
-        }
-
-        private void Awake()
-        {
-            m_contentCanvasGroup = m_content.GetComponent<CanvasGroup>();
-            if (m_contentCanvasGroup == null)
-                m_contentCanvasGroup = m_content.AddComponent<CanvasGroup>();
-
-            m_contentRectTransform = m_content.GetComponent<RectTransform>();
-        }
 
         public virtual void Init()
         {
@@ -79,8 +79,8 @@ namespace Utils.UI
             if (m_enableFadeIn)
             {
                 if (m_fadeTween.IsActive()) m_fadeTween.Kill();
-                m_canvasGroup.alpha = 0;
-                m_fadeTween = m_canvasGroup.DOFade(1, m_showDuration);
+                m_contentCanvasGroup.alpha = 0;
+                m_fadeTween = m_contentCanvasGroup.DOFade(1, m_showDuration);
             }
             else
             {
@@ -113,7 +113,7 @@ namespace Utils.UI
             if (m_enableFadeOut)
             {
                 if (m_fadeTween.IsActive()) m_fadeTween.Kill();
-                m_fadeTween = m_canvasGroup.DOFade(0, m_hideDuration);
+                m_fadeTween = m_contentCanvasGroup.DOFade(0, m_hideDuration);
             }
 
             // Move Out

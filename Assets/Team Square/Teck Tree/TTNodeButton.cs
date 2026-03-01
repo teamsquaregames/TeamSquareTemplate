@@ -207,6 +207,8 @@ public class TTNodeButton : CustomButton
 
         base.OnPointerEnter(eventData);
         
+        UIManager.Instance.GetCanvas<TeckTreeCanvas>().GetContainer<TTNodeDetailsUIC>().Setup(this);
+        
         if (m_colorLerpCoroutine != null)
             StopCoroutine(m_colorLerpCoroutine);
         m_colorLerpCoroutine = StartCoroutine(LerpColor(m_sheen, m_hoverSheenColor, m_lerpDuration));
@@ -220,6 +222,8 @@ public class TTNodeButton : CustomButton
             return;
 
         base.OnPointerExit(eventData);
+        
+        UIManager.Instance.GetCanvas<TeckTreeCanvas>().GetContainer<TTNodeDetailsUIC>().Hide();
 
         if (m_colorLerpCoroutine != null)
             StopCoroutine(m_colorLerpCoroutine);

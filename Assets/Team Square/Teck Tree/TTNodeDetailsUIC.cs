@@ -2,15 +2,13 @@ using System.Text;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utils.UI;
 
 
-public class TTNodeDetails : AUIElement
+public class TTNodeDetailsUIC : UIContainer
 {
     [TitleGroup("Dependencies")]
-    [SerializeField, Required] private RectTransform m_rectTransform;
     [SerializeField, Required] private Image m_icon;
     [SerializeField, Required] private TMP_Text m_name;
     [SerializeField, Required] private TMP_Text m_description;
@@ -20,25 +18,28 @@ public class TTNodeDetails : AUIElement
     
     private TTNodeAsset m_currentAsset;
 
-    public void Setup(TTNodeAsset _asset)
+    public void Setup(TTNodeButton nodeButton)
     {
-        m_currentAsset = _asset;
-        int level = GameData.Instance.GetNodeLevel(_asset.ID);
+        m_currentAsset = nodeButton.LinkedNodeAsset;
+        int level = GameData.Instance.GetNodeLevel(m_currentAsset.ID);
 
         /// Set new informations
-        m_icon.sprite = _asset.Icon;
-        m_name.text = _asset.DisplayName;
-        m_description.text = BuildNodeDescription(_asset, level);
+        m_icon.sprite = m_currentAsset.Icon;
+        m_name.text = m_currentAsset.DisplayName;
+        m_description.text = BuildNodeDescription(m_currentAsset, level);
 
-        if (level >= _asset.MaxLevel)
+        if (level >= m_currentAsset.MaxLevel)
             m_currencyCostUIE.Hide();
         else
         {
             m_currencyCostUIE.Show();
-            m_currencyCostUIE.SetCurrencyCost(_asset.Cost[0].currencyAsset, _asset.Cost[0].GetAmount(level));
+            m_currencyCostUIE.SetCurrencyCost(m_currentAsset.Cost[0].currencyAsset, m_currentAsset.Cost[0].GetAmount(level));
         }
 
+        transform.position = nodeButton.transform.position;
         HandleLevelDisplay();
+        
+        Show();
     }
 
     private void HandleLevelDisplay()
