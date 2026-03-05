@@ -51,7 +51,7 @@ public partial class GameHandler : Singleton<GameHandler>
             }
             m_gameData.ResetRun();
             
-            UIManager.Instance.GetCanvas<TeckTreeCanvas>().Open();
+            UIManager.Instance.GetCanvas<SkillTreeCanvas>().Open();
         }, m_resetDelay);
     }
     
@@ -59,7 +59,7 @@ public partial class GameHandler : Singleton<GameHandler>
     {
         SetPause(false);
     
-        UIManager.Instance.GetCanvas<TeckTreeCanvas>().Close();
+        UIManager.Instance.GetCanvas<SkillTreeCanvas>().Close();
         CameraController.Instance.SetControl(false);
     
         DespawnPooledObjectAndTuto();

@@ -207,7 +207,7 @@ public class TTNodeButton : CustomButton
 
         base.OnPointerEnter(eventData);
         
-        UIManager.Instance.GetCanvas<TeckTreeCanvas>().GetContainer<TTNodeDetailsUIC>().Setup(this);
+        UIManager.Instance.GetCanvas<SkillTreeCanvas>().GetContainer<TTNodeDetailsUIC>().Setup(this);
         
         if (m_colorLerpCoroutine != null)
             StopCoroutine(m_colorLerpCoroutine);
@@ -223,7 +223,7 @@ public class TTNodeButton : CustomButton
 
         base.OnPointerExit(eventData);
         
-        UIManager.Instance.GetCanvas<TeckTreeCanvas>().GetContainer<TTNodeDetailsUIC>().Hide();
+        UIManager.Instance.GetCanvas<SkillTreeCanvas>().GetContainer<TTNodeDetailsUIC>().Close();
 
         if (m_colorLerpCoroutine != null)
             StopCoroutine(m_colorLerpCoroutine);

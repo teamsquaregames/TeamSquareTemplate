@@ -18,6 +18,18 @@ public class TTNodeDetailsUIC : UIContainer
     
     private TTNodeAsset m_currentAsset;
 
+    public override void Open()
+    {
+        base.Open();
+        GameData.Instance.onNodeLevelUp += LevelUp;
+    }
+
+    public override void Close()
+    {
+        base.Close();
+        GameData.Instance.onNodeLevelUp -= LevelUp;
+    }
+
     public void Setup(TTNodeButton nodeButton)
     {
         m_currentAsset = nodeButton.LinkedNodeAsset;
@@ -39,7 +51,7 @@ public class TTNodeDetailsUIC : UIContainer
         transform.position = nodeButton.transform.position;
         HandleLevelDisplay();
         
-        Show();
+        Open();
     }
 
     private void HandleLevelDisplay()
@@ -51,17 +63,18 @@ public class TTNodeDetailsUIC : UIContainer
             m_enabledLevelObjects[i].SetActive(i < GameData.Instance.GetNodeLevel(m_currentAsset.ID));
     }
 
-    public void LevelUp(TTNodeAsset _asset, int level)
+    public void LevelUp(int level)
     {
-        m_currentAsset = _asset;
-        m_description.text = BuildNodeDescription(_asset, level);
+        if (m_currentAsset == null) return;
+        
+        m_description.text = BuildNodeDescription(m_currentAsset, level);
 
-        if (level >= _asset.MaxLevel)
+        if (level >= m_currentAsset.MaxLevel)
             m_currencyCostUIE.Hide();
         else
         {
             m_currencyCostUIE.Show();
-            m_currencyCostUIE.SetCurrencyCost(m_currencyCostUIE.CurrencyAsset, _asset.Cost[0].GetAmount(level));
+            m_currencyCostUIE.SetCurrencyCost(m_currencyCostUIE.CurrencyAsset, m_currentAsset.Cost[0].GetAmount(level));
         }
 
         HandleLevelDisplay();

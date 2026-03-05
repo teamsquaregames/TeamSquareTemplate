@@ -9,53 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: b7915df4cd4da490ab52fc8fa9ee9127, type: 3}
   m_Name: vInspector Data
-  m_EditorClassIdentifier: VInspector:VInspector:VInspectorData
-  bookmarks:
-  - _obj: {fileID: 11400000, guid: 866160c6625c1c646be0f6df1ac2ce07, type: 2}
-    globalId:
-      globalObjectIdString: GlobalObjectId_V1-3-866160c6625c1c646be0f6df1ac2ce07-11400000-0
-    isSceneGameObject: 0
-    isAsset: 1
-    _typeString: GameConfig, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - _obj: {fileID: 11400000, guid: 28960d13c07cb824299afadae2fed146, type: 2}
-    globalId:
-      globalObjectIdString: GlobalObjectId_V1-3-28960d13c07cb824299afadae2fed146-11400000-0
-    isSceneGameObject: 0
-    isAsset: 1
-    _typeString: GameData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - _obj: {fileID: 11400000, guid: 8374b56b7f346af4ab884a5d67539ecd, type: 2}
-    globalId:
-      globalObjectIdString: GlobalObjectId_V1-3-8374b56b7f346af4ab884a5d67539ecd-11400000-0
-    isSceneGameObject: 0
-    isAsset: 1
-    _typeString: GameAssets, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - _obj: {fileID: 5198438277419480879, guid: e7f5d61eb11993041a98d4875c1077b8, type: 3}
-    globalId:
-      globalObjectIdString: GlobalObjectId_V1-1-e7f5d61eb11993041a98d4875c1077b8-5198438277419480879-0
-    isSceneGameObject: 0
-    isAsset: 1
-    _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  - _obj: {fileID: 11400000, guid: 610a480f1560cc04fa6e035cb30e6308, type: 2}
-    globalId:
-      globalObjectIdString: GlobalObjectId_V1-3-610a480f1560cc04fa6e035cb30e6308-11400000-0
-    isSceneGameObject: 0
-    isAsset: 1
-    _typeString: SoundLibrary, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  - _obj: {fileID: 6426683890984912173, guid: 4b52f078667e52d4790ab484d853f3ab, type: 3}
-    globalId:
-      globalObjectIdString: GlobalObjectId_V1-1-4b52f078667e52d4790ab484d853f3ab-6426683890984912173-0
-    isSceneGameObject: 0
-    isAsset: 1
-    _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  - _obj: {fileID: 7501467862709522670, guid: e5c605ee99d7be341926ba0bb9641d02, type: 3}
-    globalId:
-      globalObjectIdString: GlobalObjectId_V1-1-e5c605ee99d7be341926ba0bb9641d02-7501467862709522670-0
-    isSceneGameObject: 0
-    isAsset: 1
-    _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  m_EditorClassIdentifier: VInspector::VInspector.VInspectorData
+  bookmarks: []

@@ -16,6 +16,7 @@ public class GameData : ScriptableObject
 	[ES3NonSerializable] public Action<CurrencyAsset, double> onCurrencyChanged;
 	[ES3NonSerializable] public Action<CurrencyAsset, double> onCurrencyAdded;
 	[ES3NonSerializable] public Action<CurrencyAsset> onNotEnoughCurrency;
+	[ES3NonSerializable] public Action<int> onNodeLevelUp;
 	[ES3NonSerializable] public Action OnResetData;
 
 	private static GameData _instance;
@@ -337,6 +338,7 @@ public class GameData : ScriptableObject
 		}
 		Save();
 
+		onNodeLevelUp?.Invoke(teckTreeNodesLevels[_nodeID]);
 		return teckTreeNodesLevels[_nodeID];
 	}
 	#endregion
