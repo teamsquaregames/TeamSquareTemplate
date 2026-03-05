@@ -10,11 +10,11 @@ using DG.Tweening;
 using MyBox;
 
 
-public class TTNodeButton : CustomButton
+public class STNodeButton : CustomButton
 {
     #region Fields
     [TitleGroup("Dependencies")]
-    [SerializeField, Required] private TTNodeAsset m_asset;
+    [SerializeField, Required] private STNodeAsset m_asset;
     [TitleGroup("Dependencies")]
     [SerializeField, Required] private RadialLayoutNode m_radialLayoutNode;
     [TitleGroup("Dependencies - Display")]
@@ -78,7 +78,7 @@ public class TTNodeButton : CustomButton
     private Ease m_maxLevelFlashScaleEase = Ease.OutQuad;
     private Ease m_maxLevelFlashFadeEase = Ease.InQuad;
     
-    public TTNodeAsset LinkedNodeAsset => m_asset;
+    public STNodeAsset LinkedNodeAsset => m_asset;
     public PanelController PanelController { get; set; }
     #endregion
 
@@ -129,13 +129,13 @@ public class TTNodeButton : CustomButton
             }
 
             foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
-                child.GetComponent<TTNodeButton>().SetLock(false);
+                child.GetComponent<STNodeButton>().SetLock(false);
 
             SetLock(false);
             SetActivatedNodeFeedback(true);
             
             foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
-                child.GetComponent<TTNodeButton>().SetLock(false);
+                child.GetComponent<STNodeButton>().SetLock(false);
         }
         else
         {
@@ -154,7 +154,7 @@ public class TTNodeButton : CustomButton
             }
             
             foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
-                child.GetComponent<TTNodeButton>().SetLock(true);
+                child.GetComponent<STNodeButton>().SetLock(true);
 
             m_levelsParent.SetActive(false);
             
@@ -207,7 +207,7 @@ public class TTNodeButton : CustomButton
 
         base.OnPointerEnter(eventData);
         
-        UIManager.Instance.GetCanvas<SkillTreeCanvas>().GetContainer<TTNodeDetailsUIC>().Setup(this);
+        UIManager.Instance.GetCanvas<SkillTreeCanvas>().GetContainer<STNodeDetailsUIC>().Setup(this);
         
         if (m_colorLerpCoroutine != null)
             StopCoroutine(m_colorLerpCoroutine);
@@ -223,7 +223,7 @@ public class TTNodeButton : CustomButton
 
         base.OnPointerExit(eventData);
         
-        UIManager.Instance.GetCanvas<SkillTreeCanvas>().GetContainer<TTNodeDetailsUIC>().Close();
+        UIManager.Instance.GetCanvas<SkillTreeCanvas>().GetContainer<STNodeDetailsUIC>().Close();
 
         if (m_colorLerpCoroutine != null)
             StopCoroutine(m_colorLerpCoroutine);
@@ -356,7 +356,7 @@ public class TTNodeButton : CustomButton
             
             //Activate children
             foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
-                child.GetComponent<TTNodeButton>().SetLock(false);
+                child.GetComponent<STNodeButton>().SetLock(false);
         }
 
         for (int i = 0; i < m_levelActivatedObjects.Length; i++)
@@ -477,7 +477,7 @@ public class TTNodeButton : CustomButton
     }
 
 #if UNITY_EDITOR
-    private TTNodeAsset m_previousAsset;
+    private STNodeAsset m_previousAsset;
 
     private void OnValidate()
     {

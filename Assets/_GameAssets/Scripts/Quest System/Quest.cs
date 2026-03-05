@@ -31,7 +31,7 @@ public class Quest
     [Tooltip("Stars awarded upon completion")]
     public double rewardStars = 0;
     
-    public TTNodeAsset linkedNode;
+    public STNodeAsset linkedNode;
     
     public bool CheckCompletion()
     {

@@ -14,7 +14,7 @@ public class QuestData : ScriptableObject
     [TextArea(3, 5)] public string description;
     [PreviewField(100)] public Sprite questIcon; public QuestObjective[] objectives;
     public int rewardStars = 0;
-    public TTNodeAsset linkedNode;
+    public STNodeAsset linkedNode;
     
     public Quest ToQuest()
     {

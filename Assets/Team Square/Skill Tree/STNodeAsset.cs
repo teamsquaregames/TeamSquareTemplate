@@ -12,7 +12,7 @@ public enum BonusesApplicationMode
 
 [CreateAssetMenu(fileName = "TTN_", menuName = "TT Node Asset")]
 [Serializable]
-public class TTNodeAsset : ScriptableObject
+public class STNodeAsset : ScriptableObject
 {
     [TitleGroup("Settings")]
     [SerializeField] protected string m_displayName;

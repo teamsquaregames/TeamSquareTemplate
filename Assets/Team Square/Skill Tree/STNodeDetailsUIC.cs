@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Utils.UI;
 
 
-public class TTNodeDetailsUIC : UIContainer
+public class STNodeDetailsUIC : UIContainer
 {
     [TitleGroup("Dependencies")]
     [SerializeField, Required] private Image m_icon;
@@ -16,7 +16,7 @@ public class TTNodeDetailsUIC : UIContainer
     [SerializeField, Required] private GameObject[] m_levelObjects;
     [SerializeField, Required] private GameObject[] m_enabledLevelObjects;
     
-    private TTNodeAsset m_currentAsset;
+    private STNodeAsset m_currentAsset;
 
     public override void Open()
     {
@@ -30,7 +30,7 @@ public class TTNodeDetailsUIC : UIContainer
         GameData.Instance.onNodeLevelUp -= LevelUp;
     }
 
-    public void Setup(TTNodeButton nodeButton)
+    public void Setup(STNodeButton nodeButton)
     {
         m_currentAsset = nodeButton.LinkedNodeAsset;
         int level = GameData.Instance.GetNodeLevel(m_currentAsset.ID);
@@ -80,7 +80,7 @@ public class TTNodeDetailsUIC : UIContainer
         HandleLevelDisplay();
     }
 
-    private string BuildNodeDescription(TTNodeAsset _asset, int _level)
+    private string BuildNodeDescription(STNodeAsset _asset, int _level)
     {
         StringBuilder description = new StringBuilder();
 

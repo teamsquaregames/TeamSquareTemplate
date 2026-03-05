@@ -6,7 +6,7 @@ public class SkillTreeCanvas : CanvasHandler
     [TitleGroup("Dependencies")]
     [SerializeField] private PanelController m_ttPanelController;
     
-    private TTNodeButton[] m_ttNodeButtons;
+    private STNodeButton[] m_ttNodeButtons;
 
     public void GetReferences()
     {
@@ -17,8 +17,8 @@ public class SkillTreeCanvas : CanvasHandler
     {
         base.Init();
 
-        m_ttNodeButtons = GetComponentsInChildren<TTNodeButton>();
-        foreach (TTNodeButton ttNodeButton in m_ttNodeButtons)
+        m_ttNodeButtons = GetComponentsInChildren<STNodeButton>();
+        foreach (STNodeButton ttNodeButton in m_ttNodeButtons)
             ttNodeButton.PanelController = m_ttPanelController;
 
         QuestManager.Instance.OnQuestCompleted += OnQuestCompleted;
@@ -48,9 +48,9 @@ public class SkillTreeCanvas : CanvasHandler
 
     #region Nodes
 
-    public TTNodeButton GetButtonByNodeAsset(TTNodeAsset nodeAsset)
+    public STNodeButton GetButtonByNodeAsset(STNodeAsset nodeAsset)
     {
-        foreach (TTNodeButton button in m_ttNodeButtons)
+        foreach (STNodeButton button in m_ttNodeButtons)
         {
             if (button.LinkedNodeAsset == nodeAsset)
                 return button;
@@ -60,7 +60,7 @@ public class SkillTreeCanvas : CanvasHandler
 
     public void ResetTechTree()
     {
-        foreach (TTNodeButton nodeButton in m_ttNodeButtons)
+        foreach (STNodeButton nodeButton in m_ttNodeButtons)
             nodeButton.UpdateVisuals();
 
         m_ttPanelController.ResetView();
@@ -75,7 +75,7 @@ public class SkillTreeCanvas : CanvasHandler
     {
         if (startedQuest.linkedNode == null) return;
 
-        TTNodeButton nodeButton = GetButtonByNodeAsset(startedQuest.linkedNode);
+        STNodeButton nodeButton = GetButtonByNodeAsset(startedQuest.linkedNode);
         if (nodeButton != null && GameData.Instance.GetNodeLevel(nodeButton.LinkedNodeAsset.ID) <= 0)
             nodeButton.SetHighlighted(true);
     }
@@ -84,7 +84,7 @@ public class SkillTreeCanvas : CanvasHandler
     {
         if (completedQuest.linkedNode == null) return;
 
-        TTNodeButton nodeButton = GetButtonByNodeAsset(completedQuest.linkedNode);
+        STNodeButton nodeButton = GetButtonByNodeAsset(completedQuest.linkedNode);
         if (nodeButton != null)
             nodeButton.SetHighlighted(false);
     }
@@ -92,7 +92,7 @@ public class SkillTreeCanvas : CanvasHandler
     private void HandleNodesHighlight()
     {
         Quest currentQuest = QuestManager.Instance.CurrentQuest;
-        foreach (TTNodeButton ttNodeButton in m_ttNodeButtons)
+        foreach (STNodeButton ttNodeButton in m_ttNodeButtons)
         {
             bool shouldHighlight = ttNodeButton.LinkedNodeAsset != null
                 && currentQuest != null
