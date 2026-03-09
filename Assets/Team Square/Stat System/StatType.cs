@@ -1,11 +1,11 @@
 namespace Stats
 {
-public enum StatType
-{
-    MaxHealth,
-    AttackDamage,
-    AttackSpeed,
-    MoveSpeed,
-    Armor
-}
+    public enum StatType
+    {
+        MaxHealth,
+        AttackDamage,
+        AttackSpeed,
+        MoveSpeed,
+        Armor
+    }
 }

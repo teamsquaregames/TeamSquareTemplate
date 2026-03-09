@@ -90,7 +90,6 @@ public class STNodeButton : CustomButton
     public override void Init()
     {
         m_icon.sprite = m_asset.Icon;
-
         m_radialLayoutNode.onSetArrivingLink += onSetArrivingLink;
         UpdateVisuals();
     }
@@ -109,19 +108,10 @@ public class STNodeButton : CustomButton
         {
             m_demoLockObject.SetActive(m_demoLocked && GameConfig.Instance.gameSettings.isDemo);
             
-            foreach (LeveledStatModifier statModifier in m_asset.StatModifiers)
-            {
-                StatManager.Instance.AddDefinitionModifier(statModifier.entityType, statModifier.GetModifierAtLevel(m_level - 1));
-            }
-
-            foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
-                child.GetComponent<STNodeButton>().SetLock(false);
-
+            ApplyStatModifiers();
+            SetChildrenLock(false);
             SetLock(false);
             SetActivatedNodeFeedback(true);
-            
-            foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
-                child.GetComponent<STNodeButton>().SetLock(false);
         }
         else
         {
@@ -132,18 +122,10 @@ public class STNodeButton : CustomButton
                 m_subLayoutBG.SetActive(false);
             
             if (!m_isLockInitialized)
-            {
-                if (m_lockedByDefault)
-                    SetLock(true);
-                else
-                    SetLock(false);
-            }
-            
-            foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
-                child.GetComponent<STNodeButton>().SetLock(true);
+                SetLock(m_lockedByDefault);
 
+            SetChildrenLock(true);
             m_levelsParent.SetActive(false);
-            
             SetActivatedNodeFeedback(false);
         }
     }
@@ -151,12 +133,9 @@ public class STNodeButton : CustomButton
     public override void OnPointerClick(PointerEventData _eventData)
     {
         if (_eventData.button != PointerEventData.InputButton.Left) return;
-        
-        if (!m_button.interactable)
-            return;
+        if (!m_button.interactable) return;
 
         base.OnPointerClick(_eventData);
-        
         TryLevelUpNode();
     }
 
@@ -185,11 +164,8 @@ public class STNodeButton : CustomButton
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        if (!m_button.interactable)
-            return;
-        
-        if (eventData.pointerCurrentRaycast.gameObject != m_content.gameObject)
-            return;
+        if (!m_button.interactable) return;
+        if (eventData.pointerCurrentRaycast.gameObject != m_content.gameObject) return;
 
         base.OnPointerEnter(eventData);
         
@@ -204,8 +180,7 @@ public class STNodeButton : CustomButton
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        if (!m_button.interactable)
-            return;
+        if (!m_button.interactable) return;
 
         base.OnPointerExit(eventData);
         
@@ -220,16 +195,13 @@ public class STNodeButton : CustomButton
 
     public override void SetHighlighted(bool _highlighted)
     {
-        // this.Log($"Set Highlighted({_highlighted}) on TTNodeButton: {m_asset.DisplayName}. Locked: {m_isLocked}");
         base.SetHighlighted(_highlighted);
 
         m_content.gameObject.SetActive(true);
-
         m_background.gameObject.SetActive(!m_isLocked);
+
         foreach (Image frame in m_frames)
-        {
             frame.gameObject.SetActive(!m_isLocked);
-        }
 
         SetInteractible(!m_isLocked);
         m_contentCanvasGroup.alpha = m_isLocked && !_highlighted ? 0 : 1;
@@ -237,11 +209,9 @@ public class STNodeButton : CustomButton
     
     private void onSetArrivingLink(RadialLayoutLink _link)
     {
-        // this.Log($"onSetArrivingLink({_link.name})");
         m_arrivingLink = _link;
         if (m_arrivingLink != null)
         {
-            m_arrivingLink.SetProgressInstant(0f);
             m_arrivingLink.gameObject.SetActive(!m_isLocked);
             m_radialLayoutNode.onSetArrivingLink -= onSetArrivingLink;
         }
@@ -256,29 +226,23 @@ public class STNodeButton : CustomButton
         if (!CanAfford()) return;
         
         if (GameData.Instance.GetNodeLevel(m_asset.ID) < m_asset.MaxLevel - 1)
-        {
             SoundManager.Instance.PlaySound(SoundKeys.ui_TTnode_click, Mathf.Lerp(.8f, 1.25f, (float)GameData.Instance.GetNodeLevel(m_asset.ID) / m_asset.MaxLevel));
-        }
 
         if (GameData.Instance.GetNodeLevel(m_asset.ID) == m_asset.MaxLevel - 1)
-        {
             SoundManager.Instance.PlaySound(SoundKeys.ui_TTnode_maxlevel);
-        }
     }
 
     private void TryLevelUpNode()
     {
         if (m_demoLocked && GameConfig.Instance.gameSettings.isDemo)
         {
-            NegativeClickBounce();
-            PlayNegativeClickSound();
+            RejectClick();
             return;
         }
 
         if (GameData.Instance.GetNodeLevel(m_asset.ID) >= m_asset.MaxLevel)
         {
-            NegativeClickBounce();
-            PlayNegativeClickSound();
+            RejectClick();
             return;
         }
 
@@ -289,28 +253,44 @@ public class STNodeButton : CustomButton
         }
         else
         {
-            NegativeClickBounce();
-            PlayNegativeClickSound();
+            RejectClick();
         }
     }
 
-    private bool CanAfford()
+    private bool CanAfford() => CheckAffordability(true);
+
+    private bool CheckAffordability(bool spendCheck)
     {
         foreach (Cost cost in m_asset.Cost)
         {
-            if (!GameData.Instance.HasEnoughCurrency(cost.currencyAsset, cost.GetAmount(m_level), true))
+            if (!GameData.Instance.HasEnoughCurrency(cost.currencyAsset, cost.GetAmount(m_level), spendCheck))
                 return false;
         }
-        
         return true;
     }
 
     private void SpendCurrencies(int level)
     {
         foreach (Cost cost in m_asset.Cost)
-        {
             GameData.Instance.SpendCurrency(cost.currencyAsset, cost.GetAmount(level));
-        }
+    }
+
+    private void RejectClick()
+    {
+        NegativeClickBounce();
+        PlayNegativeClickSound();
+    }
+
+    private void ApplyStatModifiers()
+    {
+        foreach (LeveledStatModifier statModifier in m_asset.StatModifiers)
+            StatManager.Instance.AddDefinitionModifier(statModifier.entityType, statModifier.GetModifierAtLevel(m_level - 1));
+    }
+
+    private void SetChildrenLock(bool locked)
+    {
+        foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
+            child.GetComponent<STNodeButton>().SetLock(locked);
     }
 
     private void LevelUpNode()
@@ -318,10 +298,7 @@ public class STNodeButton : CustomButton
         ClickBounce();
         m_level = GameData.Instance.LevelUpNode(m_asset.ID);
         
-        foreach (LeveledStatModifier statModifier in m_asset.StatModifiers)
-        {
-            StatManager.Instance.AddDefinitionModifier(statModifier.entityType, statModifier.GetModifierAtLevel(m_level - 1));
-        }
+        ApplyStatModifiers();
         
         if (m_level == m_asset.MaxLevel)
             PlayMaxLevelFlashEffect();
@@ -329,16 +306,11 @@ public class STNodeButton : CustomButton
         if (m_level == 1)
         {
             SetActivatedNodeFeedback(true);
-            
-            //Activate children
-            foreach (RadialLayoutNode child in m_radialLayoutNode.GetChildNodes())
-                child.GetComponent<STNodeButton>().SetLock(false);
+            SetChildrenLock(false);
         }
 
         for (int i = 0; i < m_levelActivatedObjects.Length; i++)
-        {
             m_levelActivatedObjects[i].SetActive(i < m_level);
-        }
 
         GameData.Instance.IncrementTrackedValue(TrackedValueType.NodeUpgradesPurchased, 1);
     }
@@ -351,11 +323,9 @@ public class STNodeButton : CustomButton
             return;
         }
 
-        // Kill any existing tweens on this image
         m_maxLevelFlashImage.DOKill();
         m_maxLevelFlashImage.transform.DOKill();
 
-        // Setup initial state
         m_maxLevelFlashImage.gameObject.SetActive(true);
         m_maxLevelFlashImage.transform.localScale = Vector3.one * m_maxLevelFlashStartScale;
         m_maxLevelFlashImage.color = new Color(
@@ -365,27 +335,10 @@ public class STNodeButton : CustomButton
             1f
         );
 
-        // Create sequence
         Sequence flashSequence = DOTween.Sequence();
-
-        // Scale down animation
-        flashSequence.Join(
-            m_maxLevelFlashImage.transform.DOScale(m_maxLevelFlashEndScale, m_maxLevelFlashDuration)
-                .SetEase(m_maxLevelFlashScaleEase)
-        );
-
-        // Fade out animation
-        flashSequence.Join(
-            m_maxLevelFlashImage.DOFade(0f, m_maxLevelFlashDuration)
-                .SetEase(m_maxLevelFlashFadeEase)
-        );
-
-        // Deactivate at the end
-        flashSequence.OnComplete(() => 
-        {
-            m_maxLevelFlashImage.gameObject.SetActive(false);
-        });
-
+        flashSequence.Join(m_maxLevelFlashImage.transform.DOScale(m_maxLevelFlashEndScale, m_maxLevelFlashDuration).SetEase(m_maxLevelFlashScaleEase));
+        flashSequence.Join(m_maxLevelFlashImage.DOFade(0f, m_maxLevelFlashDuration).SetEase(m_maxLevelFlashFadeEase));
+        flashSequence.OnComplete(() => m_maxLevelFlashImage.gameObject.SetActive(false));
         flashSequence.Play();
     }
 
@@ -405,10 +358,9 @@ public class STNodeButton : CustomButton
             m_subLayoutBG.SetActive(activated);
 
         m_levelsParent.SetActive(activated);
+
         for (int i = 0; i < m_levelActivatedObjects.Length; i++)
-        {
             m_levelActivatedObjects[i].SetActive(i < m_level);
-        }
     }
 
     private IEnumerator LerpColor(Image _image, Color _targetColor, float _duration)
@@ -426,30 +378,19 @@ public class STNodeButton : CustomButton
         _image.color = _targetColor;
     }
 
-    private void OnCurrencyChange(CurrencyAsset _currencyAsset, double _newAmount){OnCurrencyChange();}
+    private void OnCurrencyChange(CurrencyAsset _currencyAsset, double _newAmount) => OnCurrencyChange();
 
     private void OnCurrencyChange()
     {
-        if (m_affordableParent != null)
-        {
-            if (m_asset.MaxLevel <= m_level)
-            {
-                m_affordableParent.SetActive(false);
-                return;
-            }
+        if (m_affordableParent == null) return;
 
-            bool affordable = true;
-            foreach (Cost cost in m_asset.Cost)
-            {
-                // this.Log($"{m_asset.name} checking affordability for currency: {cost.currencyAsset.DisplayName}, required: {cost.GetAmount(m_level)}, player has: {GameData.Instance.GetInventoryAmount(cost.currencyAsset)}");
-                if (!GameData.Instance.HasEnoughCurrency(cost.currencyAsset, cost.GetAmount(m_level), false))
-                {
-                    affordable = false;
-                    break;
-                }
-            }
-            m_affordableParent.SetActive(affordable);
+        if (m_asset.MaxLevel <= m_level)
+        {
+            m_affordableParent.SetActive(false);
+            return;
         }
+
+        m_affordableParent.SetActive(CheckAffordability(false));
     }
 
 #if UNITY_EDITOR
@@ -458,29 +399,24 @@ public class STNodeButton : CustomButton
     private void OnValidate()
     {
         if (m_asset != m_previousAsset)
-        {
             OnAssetChanged();
-        }
     }
 
     [Button]
     private void OnAssetChanged()
     {
         if (m_icon != null && m_asset != null)
-        {
             m_icon.sprite = m_asset.Icon;
-        }
+
         if (m_ranksVisuals != null)
         {
             foreach (var kvp in m_ranksVisuals)
-            {
                 kvp.Value.SetActive(false);
-            }
+
             if (m_asset != null && m_ranksVisuals.ContainsKey(m_asset.Rank))
-            {
                 m_ranksVisuals[m_asset.Rank].SetActive(true);
-            }
         }
+
         m_previousAsset = m_asset;
     }
 #endif

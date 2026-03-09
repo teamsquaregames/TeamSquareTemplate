@@ -2,12 +2,6 @@ using System;
 
 namespace Stats
 {
-    public enum ModifierType
-    {
-        Flat,
-        Multiplier
-    }
-
     [Serializable]
     public class StatModifier : AStatModifier
     {

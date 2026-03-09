@@ -86,16 +86,18 @@ namespace Stats
 
         private void Recalculate()
         {
-            float flat  = m_baseValue;
-            float multi = 1f;
+            float flat              = m_baseValue;
+            float additivePercent   = 0f;
+            float multiplier        = 1f;
 
             foreach (var mod in m_modifiers)
             {
-                if (mod.type == ModifierType.Flat)       flat  += mod.value;
-                if (mod.type == ModifierType.Multiplier) multi *= mod.value;
+                if (mod.type == ModifierType.Flat)               flat            += mod.value;
+                if (mod.type == ModifierType.AdditivePercentage) additivePercent += mod.value;
+                if (mod.type == ModifierType.Multiplier)         multiplier      *= mod.value;
             }
 
-            m_cachedValue = flat * multi;
+            m_cachedValue = flat * (1f + additivePercent) * multiplier;
             m_isDirty = false;
         }
     }

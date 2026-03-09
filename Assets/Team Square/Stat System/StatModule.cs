@@ -6,6 +6,7 @@ namespace Stats
     public class StatModule : MonoBehaviour
     {
         [SerializeField] private EntityType m_entityType;
+        [SerializeField] private StatModifier m_statModifier;
 
         private void Awake()
         {
@@ -16,6 +17,12 @@ namespace Stats
         {
             if (StatManager.Instance != null)
                 StatManager.Instance.UnregisterInstance(gameObject);
+        }
+
+        [Button]
+        public void test()
+        {
+            AddModifier(m_statModifier);
         }
 
         [Button]

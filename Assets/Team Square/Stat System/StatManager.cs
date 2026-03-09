@@ -121,13 +121,12 @@ namespace Stats
         }
 
         #region Debug
-        [SerializeField] private EntityType m_debugEntityType;
         [SerializeField] private StatModifier m_statModifier;
 
         [Button]
         public void AddModifier()
         {
-            AddDefinitionModifier(m_debugEntityType, m_statModifier);
+            AddDefinitionModifier(m_statModifier.entityType, m_statModifier);
         }
 
         [Button]
